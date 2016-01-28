@@ -1,0 +1,137 @@
+<core:FragmentDefinition
+    xmlns="sap.m" 
+    xmlns:table="sap.ui.table"
+    xmlns:layout="sap.ui.layout"
+    xmlns:commons="sap.ui.commons" xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:core="sap.ui.core">
+
+    <Table
+        id="idProductsTable"
+        inset="false">
+        <columns>
+            <Column
+                width="20%">
+                <header>
+                    <Text
+                        text="Category">
+                    </Text>
+                </header>
+            </Column>
+            <Column
+                width="10%">
+                <header>
+                    <Text
+                        text="Count">
+                    </Text>
+                </header>
+            </Column>
+            <Column
+                width="70%">
+                <header>
+                    <Text
+                        text="Items">
+                    </Text>
+                </header>
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <Text
+                        text="Entity Set">
+                    </Text>
+                    <Text
+                        text="{/aEntitySet/length}">
+                    </Text>
+                    <layout:Grid
+                        defaultSpan="XL2 L2 M2 S6"
+                        id="gridEntitySet">
+                        <layout:content>
+                        </layout:content>
+                    </layout:Grid>
+                </cells>
+            </ColumnListItem>
+            <ColumnListItem>
+                <cells>
+                    <Text
+                        text="Entity Type">
+                    </Text>
+                    <Text
+                        text="{/aEntitySet/length}">
+                    </Text>
+                    <layout:Grid
+                        defaultSpan="XL2 L2 M2 S6"
+                        id="gridEntityType">
+                        <layout:content>
+                        </layout:content>
+                    </layout:Grid>
+                </cells>
+            </ColumnListItem>
+             <ColumnListItem>
+                <cells>
+                    <Text
+                        text="Association Set">
+                    </Text>
+                    <Text
+                        text="{/aAssociationSet/length}">
+                    </Text>
+                    <layout:Grid
+                        defaultSpan="XL2 L2 M2 S6"
+                        id="gridAssociationSet">
+                        <layout:content>
+                        </layout:content>
+                    </layout:Grid>
+                </cells>
+            </ColumnListItem>
+            <ColumnListItem>
+                <cells>
+                    <Text
+                        text="Association">
+                    </Text>
+                    <Text
+                        text="{/aAssociation/length}">
+                    </Text>
+                    <layout:Grid
+                        defaultSpan="XL2 L2 M2 S6"
+                        id="gridAssociation">
+                        <layout:content>
+                        </layout:content>
+                    </layout:Grid>
+                </cells>
+            </ColumnListItem>
+            <ColumnListItem>
+                <cells>
+                    <Text
+                        text="Function Import">
+                    </Text>
+                    <Text
+                        text="{/aFunctionImport/length}">
+                    </Text>
+                    <layout:Grid
+                        defaultSpan="XL2 L2 M2 S6"
+                        id="gridFunctionImport">
+                        <layout:content>
+                        </layout:content>
+                    </layout:Grid>
+                </cells>
+            </ColumnListItem>
+            <ColumnListItem>
+                <cells>
+                    <Text
+                        text="Annotation">
+                    </Text>
+                    <Text
+                        text="{/aAnnotation/length}">
+                    </Text>
+                    <layout:Grid
+                        defaultSpan="XL2 L2 M2 S6"
+                        id="gridAnnotation">
+                        <layout:content>
+                        </layout:content>
+                    </layout:Grid>
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+
+</core:FragmentDefinition>

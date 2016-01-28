@@ -1,0 +1,327 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:table="sap.ui.table"
+    xmlns:commons="sap.ui.commons"
+    xmlns:core="sap.ui.core"
+    xmlns:uilib="fd.uilib">
+
+    <SplitApp
+        height="800px">
+        <masterPages>
+            <Page
+                title="Entity Types">
+                <content>
+                    <html:div
+                        style="height:1rem">
+                    </html:div>
+                    <SearchField
+                        id="searchEntityType"
+                        search="onListSearchPressed"
+                        liveChange="onListSearchLiveChanged">
+                    </SearchField>
+                    <List
+                        id="listEntityType"
+                        noDataText="no entity type"
+                        mode="SingleSelectMaster"
+                        items="{/aEntityType}"
+                        selectionChange="onListSelectionChanged">
+                        <items>
+                            <StandardListItem
+                                title="{name}"
+                                counter="{aProp/length}"
+                                press="onListItemPressed">
+                            </StandardListItem>
+                        </items>
+                    </List>
+                </content>
+            </Page>
+        </masterPages>
+        <detailPages>
+            <Page
+                title="[{name}] Detail Information"
+                id="dpageEntityType">
+        <customHeader>
+            <Toolbar>
+                <content>
+                    <ToolbarSpacer>
+                    </ToolbarSpacer>
+                    <SegmentedButton
+                        select="onEntityType_TableChartSelected">
+                        <buttons>
+                            <Button id="tableView"
+                                text="Table View"
+                                icon="sap-icon://table-view">
+                            </Button>
+                            <Button  id="diagramView"
+                                text="Diagram View"
+                                icon="sap-icon://overview-chart">
+                            </Button>
+                        </buttons>
+                    </SegmentedButton>
+                    <ToolbarSpacer>
+                    </ToolbarSpacer>
+                </content>
+            </Toolbar>
+        </customHeader>
+
+                <content>
+            <VBox
+                visible="true"
+                id="tableBox">
+                <items>
+                    <!--  visible="{path:'aNavigation/length',formatter:'.formatETNavigationVisible'}" -->
+                    <table:Table
+                        visible="{=  ${aNavigation/length} > 0 }"
+                        rows="{aNavigation}" title="Navigation Property ({aNavigation/length})"
+                        visibleRowCount="{aNavigation/length}">
+                        <table:columns>
+                            <table:Column
+                                label="name">
+                                <table:template>
+                                    <Text
+                                        text="{name}">
+                                    </Text>
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                label="relationship">
+                                <table:template>
+                                    <Link
+                                        text="{relationship}"
+                                        press="onEntityType_NavigationLinkPressed">
+                                    </Link>
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                label="from role">
+                                <table:template>
+                                    <Link
+                                        text="{fromRole}"
+                                        press="onEntityType_NavigationLinkPressed">
+                                    </Link>
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                label="to Role">
+                                <table:template>
+                                    <Link
+                                        text="{toRole}"
+                                        press="onEntityType_NavigationLinkPressed">
+                                    </Link>
+                                </table:template>
+                            </table:Column>
+                        </table:columns>
+                        <table:rows>
+                        </table:rows>
+                    </table:Table>
+                    <table:Table
+                        id="tableEntityType"
+                        visibleRowCount="{=  ${aProp/length} &lt; 20 ? ${aProp/length} : 20 }"
+                        selectionMode="MultiToggle"
+                        showColumnVisibilityMenu="true"
+                        title="Property ({aProp/length})" 
+                        rows="{aProp}">
+
+                        <table:toolbar>
+                            <Toolbar>
+                                <content>
+                                    <ToolbarSpacer>
+                                    </ToolbarSpacer>
+                                    <commons:Button
+                                        id="btnEntityTypePropCopy"
+                                        text="Copy"
+                                        press="onEntityTypePropCopyPressed">
+                                    </commons:Button>
+                                    <commons:Button
+                                        id="btnEntityTypeCreateCtrl"
+                                        text="Create common controls: Filter Bar &amp; Table,  Smart Form..."
+                                        press="onEntityType_CreateCtrlPressed">
+                                    </commons:Button>
+                                    <ToolbarSpacer>
+                                    </ToolbarSpacer>
+                                </content>
+                            </Toolbar>
+                        </table:toolbar>
+
+                        <table:columns>
+                            <table:Column
+                                sortProperty="name"
+                                filterProperty="name">
+                                <table:label>
+                                    <commons:Label
+                                        text="name">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <!-- design="{path:'key',formatter:'fd.util.format.textDesign'}" -->
+                                    <commons:TextView
+                                        text="{name}"  design="Bold" 
+                                        >
+                                    </commons:TextView>
+                                </table:template>
+                            </table:Column>
+                            <table:Column hAlign="Center"  width="5rem"
+                                sortProperty="key"
+                                filterProperty="key">
+                                <table:label>
+                                    <commons:Label
+                                        text="key">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <core:Icon 
+                                        src="{= ${key} ? 'sap-icon://key' : '' }"
+                                    />
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                sortProperty="label"
+                                filterProperty="label">
+                                <table:label>
+                                    <commons:Label
+                                        text="label">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:TextView
+                                        text="{label}">
+                                    </commons:TextView>
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                sortProperty="type"
+                                filterProperty="type">
+                                <table:label>
+                                    <commons:Label
+                                        text="type">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:TextView
+                                        text="{type}">
+                                    </commons:TextView>
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                sortProperty="maxLength"
+                                filterProperty="maxLength">
+                                <table:label>
+                                    <commons:Label
+                                        text="maxLength">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:TextView
+                                        text="{maxLength}">
+                                    </commons:TextView>
+                                </table:template>
+                            </table:Column>
+                            <table:Column hAlign="Center" width="5rem"
+                                sortProperty="filterable"
+                                filterProperty="filterable">
+                                <table:label>
+                                    <commons:Label
+                                        text="filterable">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:CheckBox
+                                        editable="false"
+                                        checked="{filterable}">
+                                    </commons:CheckBox>
+                                </table:template>
+                            </table:Column>
+                            <table:Column hAlign="Center" width="5rem"
+                                sortProperty="sortable"
+                                filterProperty="sortable">
+                                <table:label>
+                                    <commons:Label
+                                        text="sortable">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:CheckBox
+                                        editable=""
+                                        checked="{sortable}">
+                                    </commons:CheckBox>
+                                </table:template>
+                            </table:Column>
+                            <table:Column hAlign="Center"  width="5rem"
+                                sortProperty="creatable"
+                                filterProperty="creatable">
+                                <table:label>
+                                    <commons:Label
+                                        text="creatable">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:CheckBox
+                                        editable=""
+                                        checked="{creatable}">
+                                    </commons:CheckBox>
+                                </table:template>
+                            </table:Column>
+                            <table:Column hAlign="Center"  width="5rem"
+                                sortProperty="nullable"
+                                filterProperty="nullable">
+                                <table:label>
+                                    <commons:Label
+                                        text="nullable">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:CheckBox
+                                        editable=""
+                                        checked="{nullable}">
+                                    </commons:CheckBox>
+                                </table:template>
+                            </table:Column>
+                            <table:Column hAlign="Center"  width="5rem"
+                                sortProperty="updatable"
+                                filterProperty="updatable">
+                                <table:label>
+                                    <commons:Label
+                                        text="updatable">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:CheckBox
+                                        editable=""
+                                        checked="{updatable}">
+                                    </commons:CheckBox>
+                                </table:template>
+                            </table:Column>
+
+                             <table:Column  hAlign="Center" width="5rem"
+                                sortProperty="f4"
+                                filterProperty="f4">
+                                <table:label>
+                                    <commons:Label
+                                        text="F4 Helper">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <core:Icon 
+                                        src="{= ${f4} ? 'sap-icon://value-help' : '' }"
+                                        alt= "{= ${f4} ? ${name} : '' }"
+                                        press="onEntityType_F4LinkPressed" />
+                                </table:template>
+                            </table:Column>
+
+                        </table:columns>
+                        <table:rows>
+                        </table:rows>
+                      
+                    </table:Table>
+                </items>
+            </VBox>
+                    
+            <VBox id="diagramBox" visible="false" height="100%" fitContainer="true">
+                <uilib:EntityTypeDiagram id="entityTypeDiagram" name="{name}"/>
+            </VBox>
+                </content>
+            </Page>
+        </detailPages>
+    </SplitApp>
+</core:FragmentDefinition>

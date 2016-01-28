@@ -1,0 +1,72 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <ActionSheet>
+        <buttons>
+            <Button
+                text="Quick Fix All Errors"
+                icon="sap-icon://accept"
+                id="QuickFix"
+                tooltip="Do quick fix for all errors which can be fixed automatically"
+                press="onQuickFixAllPressed">
+            </Button>
+            <Button
+                text="Batch Edit"
+                icon="sap-icon://wrench"
+                id="BatchEdit"
+                tooltip="Edit several controls's property at same time"
+                press="onBatchEditPressed">
+            </Button>
+            <Button
+                text="Add Extension"
+                icon="sap-icon://edit-outside"
+                id="AddExtension"
+                press="onAddExtensionPressed">
+            </Button>
+            <Button
+                text="Add Fragment"
+                icon="sap-icon://document"
+                id="AddFragment"
+                tooltip=""
+                press="onAddFragmentPressed">
+            </Button>
+            <Button
+                text="Conver to Fragment"
+                icon="sap-icon://add-product"
+                id="ConverToFragment"
+                tooltip=""
+                press="onConvertToFragmentPressed">
+            </Button>
+            <Button
+                text="Del all sub nodes"
+                icon="sap-icon://delete"
+                id="DelSubNodes"
+                tooltip=""
+                press="onDelSubNodesPressed">
+            </Button>
+            <Button
+                text="Del all except first child node"
+                id="DelOnlyRemainFirst"
+                tooltip=""
+                press="onDelExceptFirstNodePressed">
+            </Button>
+             <Button
+                text="Collapse itself and sub nodes"
+                icon="sap-icon://collapse" 
+                id="CollapseSelfSubs"
+                tooltip=""
+                press="onCollapseSelfSubsPressed">
+            </Button>
+             <Button
+                text="Expand itself and sub nodes"
+                icon="sap-icon://expand" 
+                id="ExpandSelfSubs"
+                tooltip=""
+                press="onExpandSelfSubsPressed">
+            </Button>
+        </buttons>
+    </ActionSheet>
+</core:FragmentDefinition>
+
+

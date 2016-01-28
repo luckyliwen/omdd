@@ -1,0 +1,75 @@
+<core:View
+    xmlns:layout="sap.ui.layout"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <layout:Grid
+        defaultSpan="L6 M4 S6"
+        class="sapUiSmallMarginTop">
+        <layout:content>
+            <StandardListItem
+                title="Active"
+                info="Jobs in process"
+                infoState="Success"
+                icon="sap-icon://status-in-process">
+                <layoutData>
+                    <layout:GridData
+                        span="L12 M12 S12">
+                    </layout:GridData>
+                </layoutData>
+            </StandardListItem>
+            <StandardListItem
+                title="Job 15"
+                description="Payroll">
+            </StandardListItem>
+            <StandardListItem
+                title="Job 62"
+                description="Archive">
+            </StandardListItem>
+            <StandardListItem
+                title="Inactive"
+                info="Jobs not started"
+                infoState="None"
+                icon="sap-icon://status-inactive">
+                <layoutData>
+                    <layout:GridData
+                        span="L12 M12 S12"
+                        linebreakL="true"
+                        linebreakM="true"
+                        linebreakS="true">
+                    </layout:GridData>
+                </layoutData>
+            </StandardListItem>
+            <StandardListItem
+                title="Job 11"
+                description="Dunning B">
+            </StandardListItem>
+            <StandardListItem
+                title="Job 44"
+                description="MRP">
+            </StandardListItem>
+            <StandardListItem
+                title="Job 45"
+                description="Analysis 1">
+            </StandardListItem>
+            <StandardListItem
+                title="Failed"
+                info="Jobs with errors"
+                infoState="Error"
+                icon="sap-icon://status-error">
+                <layoutData>
+                    <layout:GridData
+                        span="L12 M12 S12"
+                        linebreakL="true"
+                        linebreakM="true"
+                        linebreakS="true">
+                    </layout:GridData>
+                </layoutData>
+            </StandardListItem>
+            <StandardListItem
+                title="Job 93"
+                description="Log cleanup">
+            </StandardListItem>
+        </layout:content>
+    </layout:Grid>
+</core:View>

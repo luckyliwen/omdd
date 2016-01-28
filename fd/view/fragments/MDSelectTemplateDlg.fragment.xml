@@ -1,0 +1,203 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        title="1: Select control type"
+        contentWidth="1000px"
+        contentHeight="800px"
+        id="SelectCtrlDlg">
+        <content>
+            <form:SimpleForm
+                title="Overall setting">
+                <form:title>
+                </form:title>
+                <form:content>
+                    <Label
+                        text="XML View or Fragment">
+                    </Label>
+                    <RadioButton
+                        selected="{useXmlView}"
+                        text="XML View"
+                        groupName="ViewOrFragment">
+                    </RadioButton>
+                    <RadioButton
+                        text="Fragment"
+                        groupName="ViewOrFragment">
+                    </RadioButton>
+                    <Label
+                        text="View Name">
+                    </Label>
+                    <Input
+                        value="{viewName}">
+                    </Input>
+                    <Label
+                        text="Controller Name">
+                    </Label>
+                    <Input
+                        value="{controllerName}" 
+                        enabled="{=  ${useXmlView} }">
+                    </Input>
+                    <Label
+                        text="Control Type:">
+                    </Label>
+                    <Select
+                        width="400px"
+                        selectedKey="{templateType}"
+                        items="{aTemplateType}"
+                        change="onTemplateTypeChanged">
+                        <items>
+                            <core:Item
+                                key="{key}"
+                                text="{text}">
+                            </core:Item>
+                        </items>
+                    </Select>
+                    <Label
+                        text="Page Setting">
+                    </Label>
+                    <Select
+                        width="400px"
+                        selectedKey="{topControlType}"
+                        items="{aTopControlType}"
+                        change="onTemplateTypeChanged">
+                        <items>
+                            <core:Item
+                                key="{key}"
+                                text="{text}">
+                            </core:Item>
+                        </items>
+                    </Select>
+                    <Label
+                        text="Mobile or Desktop">
+                    </Label>
+                    <RadioButton
+                        selected="{bMobile}"
+                        text="Mobile"
+                        groupName="MobileOrDesktop">
+                    </RadioButton>
+                    <RadioButton
+                        text="Desktop"
+                        groupName="MobileOrDesktop">
+                    </RadioButton>
+                    <Label
+                        text="Label">
+                    </Label>
+                    <RadioButton
+                        selected="{bSapLabel}"
+                        text="sap:label"
+                        tooltip="Choose the sap:label from metadata"
+                        groupName="NameOrSapLabel">
+                    </RadioButton>
+                    <RadioButton
+                        text="Property Name"
+                        tooltip="Same as property name"
+                        groupName="NameOrSapLabel">
+                    </RadioButton>
+                </form:content>
+            </form:SimpleForm>
+            <Panel
+                headerText="Detail Setting">
+                <content>
+                    <IconTabBar
+                        id="detailSettingIconTabBar">
+                        <items>
+                            <IconTabFilter
+                                key="Form"
+                                text="Form">
+                                <content>
+                                    <Label
+                                        text="Please choose form type">
+                                    </Label>
+                                    <Select
+                                        width="400px"
+                                        selectedKey="{formType}"
+                                        items="{aFormType}">
+                                        <items>
+                                            <core:Item
+                                                key="{key}"
+                                                text="{text}">
+                                            </core:Item>
+                                        </items>
+                                    </Select>
+                                </content>
+                            </IconTabFilter>
+                            <IconTabFilter
+                                key="FilterBarTable"
+                                text="FilterBar and Table">
+                                <content>
+                                    <form:SimpleForm>
+                                        <form:content>
+                                            <Label
+                                                text="With Smart Filter Bar">
+                                            </Label>
+                                            <CheckBox
+                                                text=""
+                                                selected="{useFilterBar}">
+                                            </CheckBox>
+                                            <Label
+                                                text="Smart Filter Bar ID">
+                                            </Label>
+                                            <Input>
+                                            </Input>
+                                            <Label
+                                                text="Table Types:">
+                                            </Label>
+                                            <Select
+                                                width="400px"
+                                                selectedKey="{tableType}"
+                                                items="{aTableType}">
+                                                <items>
+                                                    <core:Item
+                                                        key="{key}"
+                                                        text="{text}">
+                                                    </core:Item>
+                                                </items>
+                                            </Select>
+                                            <Label
+                                                text="Smart Table and Table">
+                                            </Label>
+                                            <Select
+                                                width="400px"
+                                                selectedKey="{smartTableType}"
+                                                items="{aSmartTableType}">
+                                                <items>
+                                                    <core:Item
+                                                        key="{key}"
+                                                        text="{text}">
+                                                    </core:Item>
+                                                </items>
+                                            </Select>
+                                        </form:content>
+                                    </form:SimpleForm>
+                                </content>
+                            </IconTabFilter>
+                            <IconTabFilter
+                                key="SmartTemplate"
+                                text="Smart Template">
+                                <content>
+                                    <Label
+                                        text="Coming Soon!!">
+                                    </Label>
+                                </content>
+                            </IconTabFilter>
+                        </items>
+                    </IconTabBar>
+                </content>
+            </Panel>
+        </content>
+        <beginButton>
+            <Button
+                text="OK"
+                press="onTemplateDialogOkPressed">
+            </Button>
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancel"
+                press="onTemplateDialogCancelPressed">
+            </Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

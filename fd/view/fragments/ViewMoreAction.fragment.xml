@@ -1,0 +1,30 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <ActionSheet>
+        <buttons>
+            <Button
+                text="Close View"
+                icon="sap-icon://hide"
+                id="CloseView"
+                tooltip="Edit several controls's property at same time"
+                press="onCloseViewPressed">
+            </Button>
+            <Button
+                text="Open View"
+                icon="sap-icon://show"
+                id="OpenView"
+                press="onOpenViewPressed">
+            </Button>
+            <Button
+                text="RemoveView"
+                icon="sap-icon://delete"
+                id="RemoveView"
+                press="onRemoveViewPressed">
+            </Button>
+        </buttons>
+    </ActionSheet>
+</core:FragmentDefinition>
+
+

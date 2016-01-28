@@ -1,0 +1,220 @@
+li[data-fd-invalid="yes"] {
+	border: 1px solid rgb(128,0,0) ;
+	color: rgb(192,0,0);
+}
+
+li.sapUiTab {
+	/*text-align: center !important;
+	margin-left: 1em !important;
+	margin-right: 1em !important;*/
+}
+
+.MarginTopBottom {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.MarginTop {
+	margin-top: 1em;
+}
+
+.MarginBottom {
+	margin-bottom: 1em;
+}
+
+.MarginLeftRight {
+	margin-left: 2em !important; 
+	margin-right: 2em !important;
+}
+
+.TextFieldInsideTable {
+	/*background-color: green !important;*/
+	border: 2px Gold solid !important;
+}
+
+.SmartTextFieldInsideTable {
+	background-color: YellowGreen  !important;
+	border: 2px Gold solid !important;
+}
+/*
+.SmartTextFieldInsideTable:focus {
+	background-color: YellowGreen   !important;
+	border: 2px Gold solid !important;
+}
+
+.SmartTextFieldInsideTable:hover {
+	background-color: YellowGreen   !important;
+	border: 2px Gold solid !important;
+}
+*/
+.ComobBoxInsideTable {
+	/*background-color: green !important;*/
+	border: 2px Gold solid !important;
+}
+
+.ComobBoxInsideTable:focus {
+	background-color: green !important;
+	border: 2px Gold solid !important;
+}
+
+
+.SpecialNodeDescription {
+	/*??how to put center*/
+	/*margin-top: 250px;*/
+	margin-right: auto;
+	margin-left: auto;
+	text-align:center;
+	font-size: 150%;
+}
+
+.sapUiUx3ShellHeader {
+	background-color: LightSkyBlue  !important;
+}
+
+.PreviewLoadingHints {
+    /*??how to put center*/
+    margin-top: 200px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align:center;
+    font-size: 150%;
+    color:    green;
+}
+
+
+.PreviewLoadingHints_Failed {
+    /*??how to put center*/
+    margin-top: 200px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align:center;
+    font-size: 150%;
+    color:  red;
+}
+
+.FastModePlaceHolderControl {
+    background-color: gray !important;*/
+    border: 1px red solid !important;
+}
+
+
+.PreviewShell_Container {
+	width:1024px;
+	height:768px;
+	border:10px black solid;
+    margin-right: auto;
+    margin-left: auto;
+    /*margin-top: auto;
+    margin-bottom: auto;*/
+	border-radius:8px;
+}
+
+.PreviewCanvas_Container {
+	width:768px;
+	height:576px;
+	border:8px black solid;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2rem;
+    margin-bottom: auto;*/
+	border-radius:6px;
+}
+
+.FDHCenter {
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+	width: 100%
+}
+
+.FDBigFont {
+	font-size: 200% !important;
+}
+
+.FDLeftMargin {
+	margin-left: 2rem !important;
+}
+.FDLeftMargin1 {
+	margin-left: 1rem !important;
+}
+.FDLeftMargin2 {
+	margin-left: 2rem !important;
+}
+
+.FDLeftMargin4 {
+	margin-left: 4rem !important;
+}
+
+.FDTopMargin {
+	margin-top: 1rem !important;
+}
+
+.FDTopMarginHalf {
+	margin-top: 0.5rem !important;
+}
+
+.FDVCenter {
+    /*margin-top: auto !important;
+    margin-bottom: auto !important;*/
+    vertical-align: middle;
+}
+
+.FDJSTextArea {
+	font-size : 20px !important;
+}
+
+.FDSyntaxHint {
+	font-size: 125%;
+	color: rgb(0,0,200);
+}
+
+.cm-s-default {font-size: 20px !important; } 
+
+/*
+.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+.CodeMirror-foldmarker {
+  color: blue;
+  text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
+  font-family: arial;
+  line-height: .3;
+  cursor: pointer;
+}
+.CodeMirror-foldgutter {
+  width: .7em;
+}
+.CodeMirror-foldgutter-open,
+.CodeMirror-foldgutter-folded {
+  color: #555;
+  cursor: pointer;
+}
+.CodeMirror-foldgutter-open:after {
+  content: "\25BE";
+}
+.CodeMirror-foldgutter-folded:after {
+  content: "\25B8";
+}
+*/
+
+
+/*D3 Tree*/
+.node circle {
+  cursor: pointer;
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.node text {
+  font: 14px sans-serif;
+}
+
+path.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+
+#mainShell-wsBar
+{
+  text-transform : none !important;
+}    

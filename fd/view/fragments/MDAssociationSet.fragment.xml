@@ -1,0 +1,110 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:html="http://www.w3.org/1999/xhtml"   xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+    <SplitApp
+        height="800px">
+        <masterPages>
+            <Page
+                title="Association Set">
+                <content>
+                    <html:div
+                        style="height:1rem">
+                    </html:div>
+                    <SearchField
+                        id="searchAssociationSet"
+                        search="onListSearchPressed"
+                        liveChange="onListSearchLiveChanged">
+                    </SearchField>
+                    <List
+                        id="listAssociationSet"
+                        noDataText="no entity type"
+                        mode="SingleSelectMaster"
+                        items="{/aAssociationSet}"
+                        selectionChange="onListSelectionChanged">
+                        <items>
+                            <StandardListItem
+                                title="{name}"
+                                press="onListItemPressed">
+                            </StandardListItem>
+                        </items>
+                    </List>
+                </content>
+            </Page>
+        </masterPages>
+        <detailPages>
+            <Page  id="dpageAssociationSet"
+                title="[{name}] Detail Information">
+                    <html:div
+                        style="height:1rem">
+                    </html:div>
+                   
+                           
+                <form:SimpleForm labelSpanL="4" 
+                    layout="ResponsiveGridLayout"
+                    labelSpanM="4"  emptySpanL="1"   emptySpanM="1"  columnsXL="1" columnsL="1" columnsM="1" >
+                
+                 <core:Title
+                        text="Basic">
+                    </core:Title>
+
+                <Label text="association">
+                    </Label>
+
+                <Link
+                    class="FDBigFont"
+                    text="{association}"
+                    press="onAssociationSet_AssociationLinkPressed">
+                   
+                </Link>
+
+                    <core:Title
+                        text="End 0">
+                    </core:Title>
+                    <Label
+                        text="entitySet">
+                    </Label>
+                    <Link
+                       
+                        text="{end/0/entitySet}"
+                        press="onAssociationSet_EntitySetLinkPressed">
+                        
+                    </Link>
+                    <Label
+                        text="role">
+                    </Label>
+                    <Link
+                    
+                        text="{end/0/role}"
+                        press="onAssociationSet_RoleLinkPressed">
+                        
+                    </Link>
+                
+                    <core:Title
+                        text="End 1">
+                    </core:Title>
+                    <Label
+                        text="entitySet">
+                    </Label>
+                    <Link
+                       
+                        text="{end/1/entitySet}"
+                        press="onAssociationSet_EntitySetLinkPressed">
+                       
+                    </Link>
+                    <Label
+                        text="role">
+                    </Label>
+                    <Link
+                       
+                        text="{end/1/role}"
+                        press="onAssociationSet_RoleLinkPressed">
+                       
+                    </Link>
+                </form:SimpleForm>
+            </Page>
+        </detailPages>
+    </SplitApp>
+</core:FragmentDefinition>

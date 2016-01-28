@@ -1,0 +1,174 @@
+<core:View
+    controllerName="fd.view.BatchEdit"
+    xmlns="sap.m"
+    xmlns:commons="sap.ui.commons"
+    xmlns:table="sap.ui.table"
+    xmlns:uilib="fd.uilib"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        title=""
+        id="BatchEditDialog">
+        <content>
+            <table:TreeTable
+                id="TreeTable"
+                visibleRowCount="12"
+                navigationMode="Scrollbar"
+                showNoData="true"
+                selectionMode="MultiToggle"
+                selectionBehavior="Row"
+                expandFirstLevel="true"
+                rows="{path: '/mTree'}"
+                rowSelectionChange="onTreeRowSelectionChanged">
+                <table:rows>
+                </table:rows>
+                <table:columns>
+                    <table:Column
+                        filterProperty="nodeName"
+                        width="30%">
+                        <table:label>
+                            <commons:Label
+                                text="node name">
+                            </commons:Label>
+                        </table:label>
+                        <table:template>
+                            <commons:TextView
+                                text="{nodeName}">
+                            </commons:TextView>
+                        </table:template>
+                    </table:Column>
+                    <table:Column
+                        filterProperty="id"
+                        width="15%">
+                        <table:label>
+                            <commons:Label
+                                text="id">
+                            </commons:Label>
+                        </table:label>
+                        <table:template>
+                            <commons:TextView
+                                text="{id}">
+                            </commons:TextView>
+                        </table:template>
+                    </table:Column>
+                    <table:Column
+                        filterProperty="value"
+                        width="20%">
+                        <table:label>
+                            <commons:Label
+                                text="Value">
+                            </commons:Label>
+                        </table:label>
+                        <table:template>
+                       <uilib:SmartEdit
+                                visible="{existed}"
+                                value="{value}"
+                                type="{path: 'existed', formatter: '.getPropType'}"
+                                name="{path: 'existed', formatter: '.getPropName'}"
+                            >
+                            </uilib:SmartEdit>
+                        </table:template>
+                    </table:Column>
+                    <table:Column
+                        filterProperty="paths"
+                        width="20%">
+                        <table:label>
+                            <commons:Label
+                                text="Path or parts">
+                            </commons:Label>
+                        </table:label>
+                        <table:template>
+                            <commons:TextView
+                                class="TextFieldInsideTable"
+                                visible="{existed}"
+                                text="{paths}">
+                            </commons:TextView>
+                        </table:template>
+                    </table:Column>
+                    <table:Column
+                        filterProperty="Formatter"
+                        width="20%">
+                        <table:label>
+                            <commons:Label
+                                text="Formatter">
+                            </commons:Label>
+                        </table:label>
+                        <table:template>
+                            <commons:TextField
+                                class="TextFieldInsideTable"
+                                visible="{existed}"
+                                value="{formatter}">
+                            </commons:TextField>
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+                <table:toolbar>
+                    <commons:Toolbar>
+                        <commons:items>
+                            <commons:Label
+                                text="1: ">
+                            </commons:Label>
+                            <commons:ComboBox
+                                id="ControlList"
+                                placeholder="Choose control"
+                                required="true"
+                                width="20rem"
+                                items="{path: '/aControl'}"
+                                change="onControlListChanged">
+                                <commons:items>
+                                    <core:ListItem
+                                        text="{text}"
+                                        key="{key}">
+                                    </core:ListItem>
+                                </commons:items>
+                            </commons:ComboBox>
+                            <commons:Label
+                                text="2:">
+                            </commons:Label>
+                            <commons:ComboBox
+                                id="PropList"
+                                displaySecondaryValues="true"
+                                required="true"
+                                width="20rem"
+                                placeholder="Choose property"
+                                change="onPropListChanged">
+                            </commons:ComboBox>
+                            <commons:Button
+                                id="applyPropChange"
+                                icon="sap-icon://accept"
+                                tooltip="Show property you selected"
+                                press="onApplPropChangePressed">
+                                <commons:tooltip>
+                                </commons:tooltip>
+                            </commons:Button>
+                            <commons:Button
+                                id="AddAllMissed"
+                                text="Add missed"
+                                icon="sap-icon://add-activity"
+                                tooltip="Add all the not existed property"
+                                press="onAddAllMissedPressed">
+                                <commons:tooltip>
+                                </commons:tooltip>
+                            </commons:Button>
+                            <commons:Button
+                                id="DelSelectProp"
+                                text="Delete Property "
+                                icon="sap-icon://delete"
+                                tooltip="Delete the property of selected nodes"
+                                press="onDelSelectPropPressed">
+                                <commons:tooltip>
+                                </commons:tooltip>
+                            </commons:Button>
+                        </commons:items>
+                    </commons:Toolbar>
+                </table:toolbar>
+            </table:TreeTable>
+        </content>
+        <endButton>
+            <Button
+                text="Close"
+                id="Close">
+            </Button>
+        </endButton>
+    </Dialog>
+</core:View>

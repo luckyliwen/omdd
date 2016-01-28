@@ -1,0 +1,115 @@
+<core:FragmentDefinition
+    xmlns="sap.m" 
+    xmlns:table="sap.ui.table"  xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:commons="sap.ui.commons" xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:core="sap.ui.core">
+
+      <SplitApp height="800px">
+        <masterPages>
+            <Page title="Association">
+                <content>
+                   <html:div
+                        style="height:1rem">
+                    </html:div>
+                    <SearchField
+                        id="searchAssociation"
+                        search="onListSearchPressed"
+                        liveChange="onListSearchLiveChanged">
+                    </SearchField>
+                    <List
+                        id="listAssociation"
+                        noDataText="no entity type"
+                        mode="SingleSelectMaster"
+                        items="{/aAssociation}"
+                        selectionChange="onListSelectionChanged">
+                        <items>
+                            <StandardListItem
+                                title="{name}"
+                                press="onListItemPressed">
+                            </StandardListItem>
+                        </items>
+                    </List>
+                </content>
+            </Page>
+        </masterPages>
+        <detailPages>
+            <Page title="[{name}] Detail Information"  id="dpageAssociation">
+                <content>
+                    <html:div style="height:1rem" />
+                
+                <form:SimpleForm labelSpanL="4" 
+                    layout="ResponsiveGridLayout"
+                    labelSpanM="4"  emptySpanL="1"   emptySpanM="1"  columnsXL="1" columnsL="1" columnsM="1" >
+                
+                    <core:Title
+                        text="End 0">
+                    </core:Title>
+                    <Label text="multiplicity" />
+                    <Text  text ="{end/0/multiplicity}" />
+                    <Label text="role" />
+                    <Text  text ="{end/0/role}" />
+                     <Label text="type" />
+                    <Link
+                        text="{end/0/type}"
+                        press="onAssociation_EntityTypeLinkPressed">
+                    </Link>
+
+                     <core:Title
+                        text="End 1">
+                    </core:Title>
+                    <Label text="multiplicity" />
+                    <Text  text ="{end/1/multiplicity}" />
+                    <Label text="role" />
+                    <Text  text ="{end/1/role}" />
+                     <Label text="type" />
+                    <Link
+                        text="{end/1/type}"
+                        press="onAssociation_EntityTypeLinkPressed">
+                    </Link>
+                </form:SimpleForm>
+<!--   visible='{path: "referentialConstraint", formatter: ".formatReferentialConstraintVisible"}' -->
+                    <Panel
+                        visible="{= !!${referentialConstraint} }"
+                        headerText="referential constraint" >
+                        <content>
+                            <HBox>
+                                <items>
+                                    <List width="400px"  class="MarginLeftRight" 
+                                        headerText="principal -- {principalEnd}"
+                                        items="{referentialConstraint/principal/propertyRef}">
+                                        <items>
+                                            <CustomListItem>
+                                                <content>
+                                                    <Link
+                                                        text="{name}"
+                                                        press="onAssociation_PrincipalPropertyRefLinkPressed">
+                                                    </Link>
+                                                </content>
+                                            </CustomListItem>
+                                        </items>
+                                    </List>
+                                      <List  width="400px"  class="MarginLeftRight" 
+                                        headerText="dependent -- {dependentEnd}"
+                                        items="{referentialConstraint/dependent/propertyRef}">
+                                        <items>
+                                            <CustomListItem>
+                                                <content>
+                                                    <Link
+                                                        text="{name}"
+                                                        press="onAssociation_DependentPropertyRefLinkPressed">
+                                                    </Link>
+                                                </content>
+                                            </CustomListItem>
+                                        </items>
+                                    </List>
+                                </items>
+                            </HBox>
+                        </content>
+                    </Panel>
+
+                </content>
+            </Page>
+        </detailPages>
+    </SplitApp>
+</core:FragmentDefinition>

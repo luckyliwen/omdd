@@ -1,0 +1,38 @@
+<core:View
+    controllerName="list_ObjectItem"
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <m:Page>
+        <m:content>
+            <m:List
+                noDataText=""
+                mode="Delete"
+                items="{path: '/data'}"
+                select="onSelect"
+                delete="onDelete">
+                <m:items>
+                    <m:ObjectListItem
+                        title="{title}"
+                        number="{number}"
+                        numberUnit="{unit}"
+                        intro="{intor}"
+                        icon="sap-icon://document"
+                        type="Detail">
+                        <m:attributes>
+                            <m:ObjectAttribute
+                                text="{attrText}">
+                            </m:ObjectAttribute>
+                        </m:attributes>
+                        <m:firstStatus>
+                            <m:ObjectStatus
+                                text="{objText}"
+                                state="{path:'number',formatter:'.formatStauts'}">
+                            </m:ObjectStatus>
+                        </m:firstStatus>
+                    </m:ObjectListItem>
+                </m:items>
+            </m:List>
+        </m:content>
+    </m:Page>
+</core:View>

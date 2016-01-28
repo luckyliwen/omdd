@@ -1,0 +1,120 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core">
+
+    <SplitApp
+        height="800px">
+        <masterPages>
+            <Page
+                title="Entity Set">
+                <content>
+                    <html:div
+                        style="height:1rem">
+                    </html:div>
+                    <SearchField
+                        id="searchEntitySet"
+                        search="onListSearchPressed" liveChange="onListSearchLiveChanged">
+                    </SearchField>
+                    <List
+                        id="listEntitySet"
+                        noDataText="no entity set"
+                        mode="SingleSelectMaster"
+                        selectionChange="onListSelectionChanged"
+                        items="{/aEntitySet}">
+                        <items>
+                            <StandardListItem
+                                title="{name}">
+                            </StandardListItem>
+                        </items>
+                    </List>
+                </content>
+            </Page>
+        </masterPages>
+        <detailPages>
+            <Page
+                title="[{name}]  Detail Information"
+                id="dpageEntitySet">
+                <content>
+                    <html:div
+                        style="height:1rem">
+                    </html:div>
+                    <layout:Grid
+                        defaultSpan="XL6 L6 M6 S12">
+                        <layout:content>
+                            <StandardListItem
+                                title="Entity Type">
+                                <layoutData>
+                                    <layout:GridData
+                                        linebreakL="true"
+                                        linebreakM="true"
+                                        spanL="12"
+                                        spanM="12"
+                                        spanXL="12">
+                                    </layout:GridData>
+                                </layoutData>
+                            </StandardListItem>
+                            <Link class="FDBigFont"
+                                text="{entityType}"  press='onEntityLinkPressed'>
+                                <layoutData>
+                                    <layout:GridData
+                                        indentL="3"
+                                        indentXL="3">
+                                    </layout:GridData>
+                                </layoutData>
+                            </Link>
+                            <StandardListItem
+                                title="Properties">
+                                <layoutData>
+                                    <layout:GridData
+                                        linebreakL="true"
+                                        linebreakM="true"
+                                        spanL="12"
+                                        spanM="12"
+                                        spanXL="12">
+                                    </layout:GridData>
+                                </layoutData>
+                            </StandardListItem>
+                            <List
+                                noDataText="">
+                                <items>
+                                    <DisplayListItem
+                                        label="creatable"
+                                        value="{creatable}">
+                                    </DisplayListItem>
+                                    <DisplayListItem
+                                        label="deletable"
+                                        value="{deletable}">
+                                    </DisplayListItem>
+                                    <DisplayListItem
+                                        label="updatable"
+                                        value="{updatable}">
+                                    </DisplayListItem>
+                                    <DisplayListItem
+                                        label="searchable"
+                                        value="{searchable}">
+                                    </DisplayListItem>
+                                    <DisplayListItem
+                                        label="pageable"
+                                        value="{pageable}">
+                                    </DisplayListItem>
+                                    <DisplayListItem
+                                        label="addressable"
+                                        value="{addressable}">
+                                    </DisplayListItem>
+                                </items>
+                                <layoutData>
+                                    <layout:GridData
+                                        indentL="3"
+                                        indentXL="3">
+                                    </layout:GridData>
+                                </layoutData>
+                            </List>
+                        </layout:content>
+                    </layout:Grid>
+                </content>
+            </Page>
+        </detailPages>
+    </SplitApp>
+</core:FragmentDefinition>

@@ -1,0 +1,24 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        title="Loading file, please wait ..."
+        id="ProgressDlg">
+        <content>
+            <ProgressIndicator
+                showValue="true"
+                state="Success"
+                width="40rem"
+                displayValue="3(4)"
+                percentValue="0"
+                id="ProgressIndicator">
+            </ProgressIndicator>
+            <TextArea
+                rows="5"
+                width="40rem"
+                id="DetailInfor">
+            </TextArea>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

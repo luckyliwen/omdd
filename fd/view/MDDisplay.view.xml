@@ -1,0 +1,80 @@
+<core:View
+    controllerName="fd.controller.MDDisplay"
+    xmlns="sap.m"
+     xmlns:table="sap.ui.table"
+    xmlns:commons="sap.ui.commons"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:core="sap.ui.core" class="sapUiSizeCompact">
+
+    <html:div style="height:800px">
+    <IconTabBar id="iconTabBar" selectedKey="Overall">
+        <items>
+            <IconTabFilter  
+                text="Overall Informaiton"  key="Overall">
+                <content>
+                    <core:Fragment
+                        fragmentName="fd.view.fragments.MDOverall" type="XML">
+                    </core:Fragment>
+                </content>
+            </IconTabFilter>
+            <IconTabFilter
+                text="Entity Set"  key="EntitySet">
+                <content>
+                    <core:Fragment
+                        fragmentName="fd.view.fragments.MDEntitySet" type="XML">
+                    </core:Fragment>
+                </content>
+            </IconTabFilter>
+
+            <IconTabFilter
+                text="Entity Type"  key="EntityType">
+                <content>
+                    <core:Fragment
+                        fragmentName="fd.view.fragments.MDEntityType" type="XML">
+                    </core:Fragment>
+                </content>
+            </IconTabFilter>
+            
+            <IconTabFilter
+                text="Association Set"  key="AssociationSet">
+                <content>
+                    <core:Fragment
+                        fragmentName="fd.view.fragments.MDAssociationSet" type="XML">
+                    </core:Fragment>
+                </content>
+            </IconTabFilter>
+
+            <IconTabFilter
+                text="Association"  key="Association">
+                <content>
+                    <core:Fragment
+                        fragmentName="fd.view.fragments.MDAssociation" type="XML">
+                    </core:Fragment>
+                </content>
+            </IconTabFilter>
+
+            <IconTabFilter
+                text="Function Import"  key="FunctionImport">
+                <content>
+                    <core:Fragment
+                        fragmentName="fd.view.fragments.MDFunctionImport" type="XML">
+                    </core:Fragment>
+                </content>
+            </IconTabFilter>
+
+            <IconTabFilter
+                text="Annotations"  key="Annotation">
+                <content>
+                    <core:Fragment
+                        fragmentName="fd.view.fragments.MDAnnotation" type="XML">
+                    </core:Fragment>
+                </content>
+            </IconTabFilter>
+
+        </items>
+        <content>
+          
+        </content>
+    </IconTabBar>
+    </html:div>
+</core:View>

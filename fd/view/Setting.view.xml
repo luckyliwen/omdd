@@ -1,0 +1,130 @@
+<core:View
+    controllerName="fd.controller.Setting"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        title="Setting, change immediate"
+        type="Standard"
+        icon="sap-icon://settings"
+        contentWidth="960px"
+        id="settingDialog">
+        <content>
+            <IconTabBar
+                id="iconTabBar">
+                <items>
+                    <IconTabFilter
+                        key="runableCode"
+                        icon="sap-icon://play"
+                        text="Runable Code ">
+                        <content>
+                            <VBox>
+                                <items>
+                                    <RadioButtonGroup
+                                        id="UI5RadioGroup"
+                                        selectedIndex="0"
+                                        select="onUI5RadioGroupSelect">
+                                        <buttons>
+                                            <RadioButton
+                                                text="SAPInternal: http://veui5infra.dhcp.wdf.sap.corp:8080/sapui5"
+                                                id="SAPInternal">
+                                            </RadioButton>
+                                            <RadioButton
+                                                text="OpenUI5: http://openui5.hana.ondemand.com"
+                                                selected="false"
+                                                id="OpenUI5">
+                                            </RadioButton>
+                                        </buttons>
+                                    </RadioButtonGroup>
+                                    <Label
+                                        text="Adjust other parameter here, pay attention to the syntax"
+                                        design="Bold">
+                                    </Label>
+                                    <TextArea
+                                        rows="5"
+                                        width="750px"
+                                        id="bootstrapTextArea"
+                                        tooltip="Adjust your other parameter here"
+                                        change="onBootstrapChanged">
+                                        <tooltip>
+                                        </tooltip>
+                                    </TextArea>
+                                </items>
+                            </VBox>
+                        </content>
+                    </IconTabFilter>
+                    <IconTabFilter
+                        key="dataBinding"
+                        icon="sap-icon://simulate"
+                        text="Data Binding">
+                        <content>
+                            <VBox>
+                                <items>
+                                    <RadioButton
+                                        id="radioOData"
+                                        text="OData binding:  Input url below"
+                                        groupName="DataBinding"
+                                        
+                                        select="onDataBindingRadioSelected">
+                                    </RadioButton>
+                                    <Input
+                                        width="90%"
+                                        class="FDLeftMargin4"
+                                        id="inputODataUrl">
+                                    </Input>
+                                    <RadioButton
+                                        id="radioJson"
+                                        text="Json binding"
+                                        selected="true"
+                                        groupName="DataBinding"
+                                        select="onDataBindingRadioSelected">
+                                    </RadioButton>
+                                    <VBox
+                                        class="FDLeftMargin4"
+                                        id="vboxJson">
+                                        <items>
+                                            <CheckBox
+                                                id="checkDefaultData"
+                                                text="Create default data:  so for  \{Name\} will have data Name 0,  Name 1"
+                                                selected="true">
+                                            </CheckBox>
+                                            <HBox>
+                                                <items>
+                                                    <Label
+                                                        text="How many entry will create for Aggregation binding: ">
+                                                    </Label>
+                                                    <Input
+                                                        id="inputDataCount"
+                                                        value="3">
+                                                    </Input>
+                                                </items>
+                                            </HBox>
+                                            <HBox>
+                                                <items>
+                                                    <Label
+                                                        text="Number start from: so it will like 1001, 1002 ">
+                                                    </Label>
+                                                    <Input
+                                                        id="inputNumberStart"
+                                                        value="1000">
+                                                    </Input>
+                                                </items>
+                                            </HBox>
+
+                                        </items>
+                                    </VBox>
+                                </items>
+                            </VBox>
+                        </content>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </content>
+        <endButton>
+            <Button
+                text="Close"
+                press="onClosePressed">
+            </Button>
+        </endButton>
+    </Dialog>
+</core:View>

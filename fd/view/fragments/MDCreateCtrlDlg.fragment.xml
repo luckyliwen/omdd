@@ -1,0 +1,321 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:commons="sap.ui.commons"
+    xmlns:table="sap.ui.table"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        contentWidth="1500px"
+        contentHeight="1360px"
+        title="Create common control by simple click,enjoy it!">
+        <content>
+            <commons:Splitter
+                splitterPosition="30%"
+                splitterOrientation="Vertical"
+                showScrollBars="true">
+                <commons:firstPaneContent>
+                    <table:Table
+                        id="tableCreateProp"
+                        visibleRowCount="25"
+                        selectionMode="MultiToggle"
+                        showColumnVisibilityMenu="true"
+                        rows="{/aProp}"
+                        title="Properties:">
+                        <table:columns>
+                            <table:Column
+                                sortProperty="name"
+                                filterProperty="name">
+                                <table:label>
+                                    <commons:Label
+                                        text="name">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:TextView
+                                        text="{name}"
+                                        design="{path:'key',formatter:'fd.util.format.textDesign'}">
+                                    </commons:TextView>
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                sortProperty="label"
+                                filterProperty="label">
+                                <table:label>
+                                    <commons:Label
+                                        text="label">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:TextView
+                                        text="{label}">
+                                    </commons:TextView>
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                sortProperty="type"
+                                filterProperty="type">
+                                <table:label>
+                                    <commons:Label
+                                        text="type">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:TextView
+                                        text="{type}">
+                                    </commons:TextView>
+                                </table:template>
+                            </table:Column>
+                            <table:Column
+                                sortProperty="maxLength"
+                                filterProperty="maxLength">
+                                <table:label>
+                                    <commons:Label
+                                        text="maxLength">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <commons:TextView
+                                        text="{maxLength}">
+                                    </commons:TextView>
+                                </table:template>
+                            </table:Column>
+                        </table:columns>
+                        <table:rows>
+                        </table:rows>
+                        <table:toolbar>
+                            <Toolbar>
+                                <content>
+                                    <ToolbarSpacer>
+                                    </ToolbarSpacer>
+                                    <commons:Button
+                                        id="propAddBtn"
+                                        text="Add Selected Property"
+                                        icon="sap-icon://arrow-right"
+                                        iconFirst="false"
+                                        press="onCreateAddPropPressed">
+                                    </commons:Button>
+                                    <ToolbarSpacer>
+                                    </ToolbarSpacer>
+                                </content>
+                            </Toolbar>
+                        </table:toolbar>
+                        <table:title>
+                        </table:title>
+                    </table:Table>
+                </commons:firstPaneContent>
+                <commons:secondPaneContent>
+                    <commons:Splitter
+                        showScrollBars="true"
+                        splitterOrientation="Horizontal"
+                        splitterPosition="40%">
+                        <commons:firstPaneContent>
+                            <HBox>
+                                <items>
+                                    <Table width="320px" class="MarginLeftRight" 
+                                        id="tableCreateGroup"
+                                        mode="SingleSelectLeft"
+                                        noDataText="add group by press +"
+                                        items="{/aGroup}"
+                                        headerText="Groups: check to switch current group">
+                                        <columns>
+                                            <Column >
+                                                <header>
+                                                    <Text
+                                                        text="Group Title">
+                                                    </Text>
+                                                </header>
+                                            </Column>
+                                        </columns>
+
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <commons:TextField  liveChange="onGroupValueChanged"  width='280px'
+                                                            value="{label}" placeholder="keep empty or set title">
+                                                    </commons:TextField>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+
+                                        <headerToolbar>        
+                                            <Toolbar>
+                                                <content>
+                                                    <Title
+                                                        text="Groups:">
+                                                    </Title>
+                                                </content>
+                                            </Toolbar>
+                                        </headerToolbar>
+                                        
+                                        <infoToolbar>
+                                            <Toolbar>
+                                            <content>
+                                                    <ToolbarSpacer>
+                                                    </ToolbarSpacer>
+                                                    <commons:Button
+                                                        id="groupAddBtn"
+                                                        
+                                                        icon="sap-icon://add"
+                                                        press="onCreateGroupAddPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="groupDeleteBtn"
+                                                        icon="sap-icon://delete"
+                                                        press="onCreateGropDelPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="groupTopBtn"
+                                                        icon="sap-icon://arrow-top"
+                                                        tooltip="Move to Top"
+                                                        press="onCreateGroupTopPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="groupUpBtn"
+                                                        icon="sap-icon://slim-arrow-up"
+                                                        tooltip="Move Up"
+                                                        press="onCreateGroupUpPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="groupDownBtn"
+                                                        icon="sap-icon://slim-arrow-down"
+                                                        tooltip="Move Down"
+                                                        press="onCreateGroupDownPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="groupBottomBtn"
+                                                        icon="sap-icon://arrow-bottom"
+                                                        tooltip="Move to Bottom"
+                                                        press="onCreateGroupBottomPressed">
+                                                    </commons:Button>
+                                                    <ToolbarSpacer>
+                                                    </ToolbarSpacer>
+                                                </content>
+                                            </Toolbar>
+                                        </infoToolbar>
+                                    </Table>
+                                   
+                                    <table:Table
+                                        id="tableCreateItem"
+                                        visibleRowCount="10"
+                                        selectionMode="MultiToggle"
+                                        showColumnVisibilityMenu="true"
+                                        rows="{}"
+                                        title="columns or items:">
+                                        <table:columns>
+                                            
+                                            <table:Column>
+                                                <table:label>
+                                                    <commons:Label
+                                                        text="name">
+                                                    </commons:Label>
+                                                </table:label>
+                                                <table:template>
+                                                    <commons:TextField
+                                                        value="{name}"
+                                                        editable="false">
+                                                    </commons:TextField>
+                                                </table:template>
+                                            </table:Column>
+
+                                            <table:Column>
+                                                <table:label>
+                                                    <commons:Label
+                                                        text="Label">
+                                                    </commons:Label>
+                                                </table:label>
+                                                <table:template>
+                                                    <commons:TextField class="TextFieldInsideTable"
+                                                        value="{labelValue}"  change="onItemLabelChanged">
+                                                    </commons:TextField>
+                                                </table:template>
+                                            </table:Column>
+
+                                            <table:Column>
+                                                <table:label>
+                                                    <commons:Label
+                                                        text="ID (Free to define it)"
+                                                        tooltip="Free to define the ID">
+                                                    </commons:Label>
+                                                </table:label>
+                                                <table:template>
+                                                    <commons:TextField class="TextFieldInsideTable"
+                                                        value="{id}" changed="onItemIdChanged">
+                                                    </commons:TextField>
+                                                </table:template>
+                                            </table:Column>
+                                        </table:columns>
+                                        <table:rows>
+                                        </table:rows>
+                                        <table:toolbar>
+                                            <Toolbar>
+                                                <content>
+                                                    <ToolbarSpacer>
+                                                    </ToolbarSpacer>
+                                                    <commons:Button
+                                                        id="itemDeleteBtn"
+                                                        text="Restore Property"
+                                                        icon="sap-icon://arrow-left"
+                                                        tooltip="Restore to prop table"
+                                                        press="onCreateItemlDelPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="itemTopBtn"
+                                                        icon="sap-icon://arrow-top"
+                                                        tooltip="Move to Top"
+                                                        press="onCreateItemTopPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="itemUpBtn"
+                                                        icon="sap-icon://slim-arrow-up"
+                                                        tooltip="Move Up"
+                                                        press="onCreateItemUpPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="itemDownBtn"
+                                                        icon="sap-icon://slim-arrow-down"
+                                                        tooltip="Move Down"
+                                                        press="onCreateItemDownPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="itemBottomBtn"
+                                                        icon="sap-icon://arrow-bottom"
+                                                        tooltip="Move to Bottom"
+                                                        press="onCreateItemBottomPressed">
+                                                    </commons:Button>
+                                                    <ToolbarSpacer>
+                                                    </ToolbarSpacer>
+                                                </content>
+                                            </Toolbar>
+                                        </table:toolbar>
+                                        <table:title>
+                                        </table:title>
+                                    </table:Table>
+                                </items>
+                            </HBox>
+                        </commons:firstPaneContent>
+                        <commons:secondPaneContent>
+                            <core:HTML content="&lt;h2&gt;Preview&lt;/h2&gt;" />
+                            <core:HTML id="PreviewCanvas">
+                            </core:HTML>
+                        </commons:secondPaneContent>
+                    </commons:Splitter>
+                </commons:secondPaneContent>
+            </commons:Splitter>
+        </content>
+        <buttons>
+            <Button
+                text="Save To File"
+                press="onCreateViewDialogSaveToFilePressed">
+            </Button>
+            <Button
+                text="Create View"
+                press="onCreateViewDialogCreateViewPressed">
+            </Button>
+            <Button
+                text="Cancel"
+                press="onCreateViewDialogCancelPressed">
+            </Button>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>
