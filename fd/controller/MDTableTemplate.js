@@ -10,7 +10,7 @@ fd.controller.MDTemplate.extend("fd.controller.MDTableTemplate", {
 	    			entitySet: this._mSetting.entitySet,
 	    			tableType: this._mSetting.tableType,
 	    		});
-	    if (this._mSetting.useSmartFilter && this._mSetting.smartFilterId) {
+	    if (this._mSetting.bUseSmartFilterBar && this._mSetting.smartFilterBarId) {
 	    	smartTable.setSmartFilterId( this._mSetting.smartFilterBarId );
 	    }
 	    this._smartTable = smartTable;
@@ -19,7 +19,7 @@ fd.controller.MDTemplate.extend("fd.controller.MDTableTemplate", {
 
 	_createSmartTable_ControlInfo: function(control) {
 		var aProp = ["entitySet", "tableType"];
-	    if (this._mSetting.useSmartFilter && this._mSetting.smartFilterId) {
+	    if (this._mSetting.bUseSmartFilterBar && this._mSetting.smartFilterBarId) {
 	    	aProp.push("smartFilterId");
 	    }
 		
@@ -113,18 +113,21 @@ fd.controller.MDTemplate.extend("fd.controller.MDTableTemplate", {
 		return tableInfo;
 	},
 
+	_createSmartFilterBar_ControlInfo: function(control) {
+		var sfb = this.getControlInfoFromControl(control, ["entityType", 'id']);
+		var aConfig = this._smartFilterBar.getControlConfiguration();
+		var that = this;
+		var aConfigInfo = [];
 
-	_createSmartFilter: function( evt ) {
-	    if (this._mSetting.useSmartFilter) {
-	    	return new sap.ui.comp.smartfilterbar.SmartFilterBar({
-	    		entityType: this._mSetting.entityType
-	    	});
-	    }
-	    return null;
-	},
-
-	_createSmartFilter_ControlInfo: function(control) {
-		return this.getControlInfoFromControl(control, ["entityType"]);
+		_.each( aConfig,  function( config) {
+		    aConfigInfo.push(
+		    	that.getControlInfoFromControl(config, ["key", 'groupId', 'index'])
+		    );
+		} );
+		sfb.setAggregationMap({
+			controlConfiguration: aConfigInfo
+		});
+		return sfb;
 	},
 	
 	//return single or an array
@@ -150,19 +153,29 @@ fd.controller.MDTemplate.extend("fd.controller.MDTableTemplate", {
 	    		break;
 	    }
 
-	    if (this._mSetting.useSmartFilter) {
-	    	var smartFilterInfo = this._createSmartFilter_ControlInfo( this._smartFilter);
+	    if (this._mSetting.bUseSmartFilterBar) {
+	    	var smartFilterInfo = this._createSmartFilterBar_ControlInfo( this._smartFilterBar);
 	    	return [smartFilterInfo, controlInfo];
 	    } else {
 	    	return [controlInfo];
 	    }
 	},
 
+	_createSmartFilterBar: function( evt ) {
+		//id need get later 
+	    var sft = new sap.ui.comp.smartfilterbar.SmartFilterBar({
+	    	id:  this._mSetting.smartFilterBarId,
+	    	entityType: this._mSetting.entityType
+	    });
+	    return sft;
+	},
+	
 
 	//return single or an array
 	_createConcreteControl: function(  ) {
 		var retTable;
-
+		//first destroy old 
+		
 	    switch (this._mSetting.smartTableType) {
 	    	case fd.Template.SmartTableType.SmartTable:
 	    		this._smartTable = this._createSmartTable();
@@ -184,9 +197,19 @@ fd.controller.MDTemplate.extend("fd.controller.MDTableTemplate", {
 
 	    this.setConcreteControl(retTable);
 
-	    if (this._mSetting.useSmartFilter) {
+	    if (this._mSetting.bUseSmartFilterBar) {
+	    	//first destroy old 
+	    	if (this._smartFilterBar) {
+	    		this._smartFilterBar.destroy();
+	    		this._smartFilterBar = null;
+	    	}
 	    	var smartFilter = this._createSmartFilterBar();
-	    	this._smartFilter = smartFilter;
+	    	this._smartFilterBar = smartFilter;
+
+	    	//??
+	    	var aKey = ['RunID', 'CreatedBy'];
+	    	this.changeSmartFilterBarKeys(aKey);
+
 	    	return [smartFilter, retTable];
 	    } else {
 	    	return [retTable];
@@ -426,12 +449,23 @@ fd.controller.MDTemplate.extend("fd.controller.MDTableTemplate", {
 		}
 	},
 
+	changeSmartFilterBarKeys: function( aNewKey) {
+		//it may change the position or add or remove, so need check one by one, the simple way is just remove and add again 
+		this._smartFilterBar.removeAllControlConfiguration();
+		for (var i=0; i < aNewKey.length; i++) {
+			var  key = aNewKey[i];
+			var config = new sap.ui.comp.smartfilterbar.ControlConfiguration({
+				key: key, 
+				index: i,
+				groupId: "_BASIC"
+			});
+			this._smartFilterBar.addControlConfiguration(config);
+		}
+	},
 	
-
-
 	//global variable
 	//_concreteTable: 
 	//_smartTable
-	////_smartFilter
+	////_smartFilterBar
 	// _mobileTableItemTemplate: 
 });

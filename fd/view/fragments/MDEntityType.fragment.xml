@@ -44,8 +44,7 @@
         <customHeader>
             <Toolbar>
                 <content>
-                    <ToolbarSpacer>
-                    </ToolbarSpacer>
+                    <ToolbarSpacer />
                     <SegmentedButton
                         select="onEntityType_TableChartSelected">
                         <buttons>
@@ -59,8 +58,14 @@
                             </Button>
                         </buttons>
                     </SegmentedButton>
-                    <ToolbarSpacer>
-                    </ToolbarSpacer>
+                    <ToolbarSpacer />
+                    <Button
+                        id="btnEntityTypeCreateCtrl"
+                        icon="sap-icon://create" 
+                        type="Emphasized"
+                        text="Create Controls"
+                        press="onEntityType_CreateCtrlPressed">
+                    </Button>
                 </content>
             </Toolbar>
         </customHeader>
@@ -122,27 +127,6 @@
                         showColumnVisibilityMenu="true"
                         title="Property ({aProp/length})" 
                         rows="{aProp}">
-
-                        <table:toolbar>
-                            <Toolbar>
-                                <content>
-                                    <ToolbarSpacer>
-                                    </ToolbarSpacer>
-                                    <commons:Button
-                                        id="btnEntityTypePropCopy"
-                                        text="Copy"
-                                        press="onEntityTypePropCopyPressed">
-                                    </commons:Button>
-                                    <commons:Button
-                                        id="btnEntityTypeCreateCtrl"
-                                        text="Create common controls: Filter Bar &amp; Table,  Smart Form..."
-                                        press="onEntityType_CreateCtrlPressed">
-                                    </commons:Button>
-                                    <ToolbarSpacer>
-                                    </ToolbarSpacer>
-                                </content>
-                            </Toolbar>
-                        </table:toolbar>
 
                         <table:columns>
                             <table:Column

@@ -99,8 +99,8 @@ li.sapUiTab {
 
 
 .PreviewShell_Container {
-	width:1200px;
-	height:800px;
+	width:1024px;
+	height:768px;
 	border:10px black solid;
     margin-right: auto;
     margin-left: auto;

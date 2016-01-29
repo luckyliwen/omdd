@@ -13,10 +13,11 @@ fd.crlf2 = "\r\n\r\n";
 fd.InputType = {
 		ViewController 			: "vc",
 		Fragment                :  "Fragment",
-		ViewControllerFromFile  : "vcFromFile",
-		ViewContent				: "ViewContent",  //view string content
-		AllControl     			:"AllControl",    //select one control to add to the tree
-		Aggregation    			:"Aggregation",   //used to select one control for the aggregation
+		ViewControllerFromFile  :  "vcFromFile",
+		ViewContent				:  "ViewContent",  //view string content
+		AllControl     			: "AllControl",    //select one control to add to the tree
+		Aggregation    			: "Aggregation",   //used to select one control for the aggregation
+		MetadataUrl             : "MetadataUrl"
 };
 
 fd.assert = jQuery.sap.assert;

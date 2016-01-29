@@ -87,6 +87,9 @@ sap.ui.core.Element.extend("fd.controller.MDTemplate", {
 	    }
 
 	    //then add the concreate control 
+	    if ( this._oConcreteControl) {
+	    	this._oConcreteControl.destroy();
+	    }
 	    var aConcreateControl = this._createConcreteControl();
 	    //may be two or one 
 	    
@@ -95,6 +98,7 @@ sap.ui.core.Element.extend("fd.controller.MDTemplate", {
 	    		this._oTopControl.addContent(  aConcreateControl[i]);
 	    	}
 	    } else {
+	    	//??so for the smart filter bar + table how to handle??
 	    	fd.assert( aConcreateControl.length == 1);
 	    	this._oTopControl = aConcreateControl[0];
 	    }
@@ -160,6 +164,10 @@ sap.ui.core.Element.extend("fd.controller.MDTemplate", {
 	
 	//from the control, by the getBindingInfo can know whether it is binding or pure value prop
 	getPropertyInfoFromControl : function( control, propName ) {
+		//?? need get the main part ?? 
+		if (propName == 'id')
+			return control.getId();
+
 	    var binding = control.getBindingInfo(propName);
 
 	    if (binding && binding.parts && binding.parts.length ==1) {

@@ -1,44 +1,6 @@
 var gprj ;
 
 sap.ui.controller("fd.controller.Project", {
-
-	onNewProjectPressed:  function(oEvent) {
-		var str = "New a project by define the location and name.\r\n\tComing soon!";
-		alert(str);
-		return;
-		
-		//??
-	/*	var name = prompt("What the Project Name?");
-		if (name != "") {
-			fd.bus.publish("view", "CloseAll");
-			
-			this._mProj.name  = name;
-			
-			this._viewTable.setTitle("View for Project: " + name);
-		}
-		
-		//delete the old views in table
-		this._mProj.aView = [];
-		this._viewTable.unbindRows();*/
-	},
-	
-	onOpenProjectPressed:  function(oEvent) {
-		var str = "Open all the views and controls for the project.\r\n\tComing soon!";
-		alert(str);
-	},
-	
-	onSaveProjectPressed:  function(oEvent) {
-		var str = "Save all the views and controls for the project.\r\n\tComing soon!";
-		alert(str);
-		
-	},
-	
-	onPreviewProjectPressed:  function(oEvent) {
-		var str = "Preview all the views for the project.\r\n\tComing soon!";
-		alert(str);
-		
-	},
-	
 	onGetInputResultForNewView: function( names) {
 		var mName = { ViewName: names[0],  ControllerName: names[1], 
 				viewCtrlNodeContent: null};
@@ -57,7 +19,6 @@ sap.ui.controller("fd.controller.Project", {
 		
 		//add new entry into it and publish event
 		fd.bus.publish("view", "NewView", mName);
-		
 	},
 	
 
@@ -307,12 +268,6 @@ sap.ui.controller("fd.controller.Project", {
 		}
 	},
 	
-	onOpenFromFileChanged: function() {
-		//the file changed, just start open
-		this._oOpenFileChoose.startRead();
-		//for simple, just use the loadAll event
-	},
-	
 	showProgressDialog: function( evt ) {
    		if (!this._oProgressDlg) {
 			this._oProgressDlg = sap.ui.xmlfragment(this.getView().getId(), "fd.view.fragments.ProgressDialog", this);
@@ -463,7 +418,7 @@ sap.ui.controller("fd.controller.Project", {
 	},
 	
 	notifyTableDataChanged: function() {
-		this._viewModel.setData( this._mProj.aView );
+		// this._viewModel.setData( this._mProj.aView );
 	},
 
 	onViewTableRowSelectionChanged: function( evt ) {
@@ -471,53 +426,62 @@ sap.ui.controller("fd.controller.Project", {
 	    this.byId("CheckSyntax").setEnabled( idxs.length > 0);
 	},
 	
+	onTilePressed: function( oEvent) {
+
+	},
+
+	onGetInputResultForLoadMetadaFromUrl: function( aName ) {
+		var mArg = {
+			url: aName[0]
+		};
+
+	    fd.bus.publish("metadata", "OpenFromUrl", mArg);
+	},
+	
+
+	onLoadMetadataFromUrlPressed : function( evt ) {
+	    fd.view.Helper.getInput( 
+				fd.InputType.MetadataUrl,
+				this.onGetInputResultForLoadMetadaFromUrl,
+				this);
+	},
+
+	/**
+	 * Call back for open all the file content
+	 * @param evt
+	 */
+	onMetaDataOpenFromFileLoadOne: function(evt) {
+		if (evt.getParameter("success")) {
+			var mArg = {
+				content: evt.getParameter("content")
+			};
+			fd.bus.publish("metadata", "OpenFromFile", mArg);
+		}
+	},
+	
 	
 	/**
 	 * In order for view easy get parameter from new xx, change from onInit to onAfterDoInit
 	 */
 	onAfterDoInit: function() {
-		/*
-		this.byId("NewProject").attachPress(  this.onNewProjectPressed,   this );
-		this.byId("OpenProject").attachPress( this.onOpenProjectPressed,   this );
-		this.byId("SaveProject").attachPress( this.onSaveProjectPressed,   this );
-		this.byId("PreviewProject").attachPress( this.onPreviewProjectPressed,   this );
-		*/
-		this._oOpenFileChoose = this.byId("ProjectFileChoose");
-		
-		this.byId("NewProject").attachPress(this.onNewProjectPressed, this).setEnabled(false);
-		this.byId("OpenProject").attachPress(this.onOpenProjectPressed, this).setEnabled(false);
-
-		this.byId("SaveProject").attachPress(this.onSaveProjectPressed, this).setEnabled(false);
-		this.byId("PreviewProject").attachPress(this.onPreviewProjectPressed, this).setEnabled(false);
-
+		this._oOpenFileChoose = this.byId("OpenFromFileChoose");
+		this._oOpenFileChoose.attachLoadAll(this.onOpenFromFileLoadAll, this);
 
 		this.byId("NewView").attachPress(this.onNewViewPressed, this);
 		this.byId("NewFragment").attachPress(this.onNewFragmentPressed, this);
-		
 		this.byId("OpenSamples").attachPress(this.onOpenSamplesPressed, this);
-
-		//this.byId("OpenFromFileView").attachPress( 	  this.onOpenViewFromFilePressed,   this );
-		this._oOpenFileChoose.attachChange(this.onOpenFromFileChanged, this);
-		this._oOpenFileChoose.attachLoadAll(this.onOpenFromFileLoadAll, this);
-
-		this.byId("OpenFromFileContent").attachPress(this.onOpenViewFromFileContentPressed, this);
-		this.byId("LoadODataMetadata").attachPress(this.onLoadODataMetadataPressed, this);
 		this.byId("CheckSyntax").attachPress(this.onCheckPressed, this);
-		this.byId("MoreAction").attachPress(this.onMorePressed, this);
 
-		this._viewTable = this.byId("ViewTable");
 
-		this._viewModel = new sap.ui.model.json.JSONModel();
-		this._viewModel.setData(this._mProj.aView);
+		this.byId("mddLoadFromUrl").attachPress(this.onLoadMetadataFromUrlPressed, this);
+		this.byId("mddLoadFromFile").attachLoadOne(this.onMetaDataOpenFromFileLoadOne, this );
+		this.byId("mddCreateProject").attachPress( function( evt ) {
+		    alert("Coming soon!");
+		} );
 
-		this._viewTable.setModel(this._viewModel);
-		this._viewTable.bindRows("/");
-	
-		this._viewTable.attachRowSelectionChange( this.onViewTableRowSelectionChanged, this);
 
 		fd.bus.subscribe("sample", "load", this.onLoadSampleConfirmed, this);
 		fd.bus.subscribe("view", "NewViewCreated", this.onNewViewCreated, this);
-		
 
 		gprj = this;
 

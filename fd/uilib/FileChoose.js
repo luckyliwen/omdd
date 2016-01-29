@@ -1,4 +1,7 @@
-sap.ui.core.Control.extend("fd.uilib.FileChoose", {
+jQuery.sap.declare("fd.uilib.FileChoose");
+
+// sap.ui.core.Control.extend("fd.uilib.FileChoose", {
+sap.m.StandardTile.extend("fd.uilib.FileChoose", {
 	metadata : {
 		//so it can be treat like a normal button then put into the toolbar
 		interfaces : [
@@ -17,7 +20,7 @@ sap.ui.core.Control.extend("fd.uilib.FileChoose", {
 			 * 2: Bind too tightly
 			 * 3: Need expose all the property of the sap.m.Button or sap.ui.commons.Button  sap.ui.core.Control
 			 */
-			'buttonControl' : {type:"any", defaultValue: null},
+			// 'buttonControl' : {type:"any", defaultValue: null},
 			
 			'multiple'   : {type:"boolean",  defaultValue: false},
 			
@@ -30,7 +33,13 @@ sap.ui.core.Control.extend("fd.uilib.FileChoose", {
 			  * */
 			"accept" : {type:"string", defaultValue: ""},
 		},
-		
+
+		defaultAggregation : "realControl",
+
+		//the real control which will have the press event
+		aggregations: {
+			'realControl': {type : "sap.ui.core.Control",  multiple : true}
+		}, 
 	
 		events: 
 		{
@@ -44,6 +53,7 @@ sap.ui.core.Control.extend("fd.uilib.FileChoose", {
 			
 			//parameter: 
 			//	contents: the content array, if read successful then the element is the file content, otherwise it is the Error
+			//	names:  the file name array
 			//  origionalEvent : the original browser event
 			//can get the detail reason by Error.message
 			"loadAll"     : {},
@@ -69,6 +79,11 @@ sap.ui.core.Control.extend("fd.uilib.FileChoose", {
 		//the dom <input file>
 		this._oFileInput = null;
 		this._bAttachedBtnPress = false;
+
+		//auto register the change event
+		this.attachChange(
+			this.startRead, this
+		);
 	},
 	
 	//just some easy helper function help to set the accept
@@ -206,7 +221,10 @@ sap.ui.core.Control.extend("fd.uilib.FileChoose", {
 		oRm.write(">");
 
 		//first the button
-		oRm.renderControl( oControl.getButtonControl());
+		var aRealControl = oControl.getAggregation("realControl");
+		if (aRealControl && aRealControl.length) {
+			oRm.renderControl( aRealControl[0] );
+		}
 		
 		//then file input
 		oRm.write( oControl._getFileInputHtmlString());
@@ -243,16 +261,18 @@ fd.uilib.FileChoose.prototype.onAfterRendering = function() {
 	
 	var that = this;
 	
-	//then bind the button and the file input
-	var btn = this.getButtonControl();
-	
-	//only need attach once, as each time after refresh the _oFileInput will get the new value
-	if (! this._bAttachedBtnPress) {
-		this._bAttachedBtnPress = true;
-		
-		btn.attachPress( function(){
-			that._oFileInput.click();
-		});
+	var aRealControl = this.getAggregation("realControl");
+	if (aRealControl && aRealControl.length) {
+		var realControl = aRealControl[0];
+
+		//only need attach once, as each time after refresh the _oFileInput will get the new value
+		if (! this._bAttachedBtnPress) {
+			this._bAttachedBtnPress = true;
+			
+			realControl.attachPress( function(){
+				that._oFileInput.click();
+			});
+		}
 	}
 };
 

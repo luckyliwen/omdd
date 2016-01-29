@@ -157,7 +157,7 @@ sap.ui.core.mvc.JSView.extend("fd.view.Project", {
 			return oTable;
 	},
 	
-	doInit: function() {
+	doInit_old: function() {
 		var aBtns = this.createProjectButtons();
 		
 		var topToolbar = new sap.ui.commons.Toolbar({
@@ -188,5 +188,125 @@ sap.ui.core.mvc.JSView.extend("fd.view.Project", {
 	   var width = $(id).width();
 	   alert("new id is " + width);
    },
+
+   createTileControls: function( aMeta, controller) {
+   		var aRet = [];
+   		for (var i=0; i < aMeta.length; i++) {
+   			var meta  = aMeta[i];
+   			if ( meta.loadFromFile) {
+   				var realTile = new sap.m.StandardTile({
+   					title: meta.title,
+   					icon:  meta.icon,
+   					press: [controller.onTilePressed, controller] 
+   				});
+
+				var multiple = !! meta.multiple;
+				var filechoose = new fd.uilib.FileChoose({
+					id: this.createId(meta.id),
+					realControl: realTile,
+					accept :"text/xml",
+					multiple: multiple
+				});
+				//need use custome tile to wrap it, otherwise can't pass the aggregation validation
+				var wrapTile = new sap.m.CustomTile({
+					content: filechoose
+				});
+				// aRet.push(filechoose);   				
+				aRet.push(wrapTile);
+   			} else {
+  				var tile = new sap.m.StandardTile({
+   					id:  this.createId(meta.id),
+   					title: meta.title,
+   					icon:  meta.icon,
+   					press: [controller.onTilePressed, controller] 
+   				});
+				aRet.push(tile);
+   			}
+   		}
+       	return aRet;
+   },
+   
+   doInit: function() {
+   		var controller = this.getController();
+  		var tileData = 
+        {
+            "xml": [
+                {
+                	"id" : "NewView",
+                    "title": "Create XML View",
+                    "icon": "sap-icon://customer-view"
+                },
+                {
+                	"id" : "NewFragment",
+                    "title": "Create XML Fragment",
+                    "icon": "sap-icon://document"
+                },
+                {
+                	"id" : "OpenFromFileChoose",
+                    "title": "Load From File",
+                    "icon": "sap-icon://attachment-text-file",
+                    loadFromFile: true,
+                    multiple:  true
+                },
+                {
+                	"id" : "OpenSamples",
+                    "title": "Open Samples",
+                    "icon": "sap-icon://example"
+                },
+                 {
+                 	"id" : "CheckSyntax",
+                    "title": "Check Semantic",
+                    "icon": "sap-icon://check-availability"
+                }
+            ],
+          
+            "mdd": [
+                {
+                	"id" : "mddLoadFromUrl",
+                    "title": "Load From URL",
+                    "icon": "sap-icon://cloud"
+                },
+                {
+                	"id" : "mddLoadFromFile",
+                    "title": "Load From File",
+                    "icon": "sap-icon://attachment-text-file",
+                    loadFromFile: true
+                },
+                {
+                	"id" : "mddCreateProject",
+                    "title": "Create OData Metadata",
+                    "icon": "sap-icon://business-objects-mobile"
+                }
+            ]
+        };
+
+   		//xml part
+   		var xmlTileContainer = new sap.m.TileContainer({
+				height: '300px',
+				tiles:  this.createTileControls(tileData.xml, controller)
+   		});
+   		var xmlPanel = new sap.m.Panel({
+             headerText: "SAPUI5 View Operations",
+             content: xmlTileContainer
+   		});
+
+   		//mdd part
+	    var mddTileContainer = new sap.m.TileContainer({
+				height: '300px',
+				tiles:  this.createTileControls(tileData.mdd, controller)
+   		});
+   		var mddPanel = new sap.m.Panel({
+             headerText: "OData Metadata Operations",
+             content: mddTileContainer
+   		});
+ 		
+   		var vBox = new sap.m.VBox({
+   			items: [xmlPanel, mddPanel ]
+   		});
+		this.addContent( vBox);
+
+		//then manually call the controller init work
+		this.getController().onAfterDoInit();
+	},
    
 });

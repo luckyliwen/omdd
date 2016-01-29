@@ -1,0 +1,62 @@
+<core:FragmentDefinition
+    xmlns="sap.m"  xmlns:table="sap.ui.table"
+    xmlns:core="sap.ui.core">
+
+    <Dialog title="Define Smart Fitler Bar" contentWidth="1024px">
+        <beginButton>
+            <Button
+                text="OK"
+                press="onDefineSmartFilterBarOkPressed">
+            </Button>
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancel"
+                press="onDefineSmartFilterBarCancelPressed">
+            </Button>
+        </endButton>
+        <content>
+            <Label text="Selected Keys, adjust by select/deselect from table:" />
+            <Input id="selectedSmartFilterBarKeys" class="MarginBottom"/>
+             <table:Table
+                rowSelectionChange="onSmartFilterBarRowSelectionChanged"
+                id="tableSmartFilterBarKey"
+                visibleRowCount="10"
+                selectionMode="MultiToggle"
+                rows="{/aSmartFilterBarProp}"
+                title="Availabe Keys">
+                <table:columns>
+                    <table:Column
+                        sortProperty="name"
+                        filterProperty="name">
+                        <table:label>
+                            <Label
+                                text="name">
+                            </Label>
+                        </table:label>
+                        <table:template>
+                            <Text
+                                text="{name}"
+                                design="{path:'key',formatter:'fd.util.format.textDesign'}">
+                            </Text>
+                        </table:template>
+                    </table:Column>
+                    <table:Column
+                        sortProperty="label"
+                        filterProperty="label">
+                        <table:label>
+                            <Label
+                                text="label">
+                            </Label>
+                        </table:label>
+                        <table:template>
+                            <Text
+                                text="{label}">
+                            </Text>
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </content>
+</Dialog>
+</core:FragmentDefinition>

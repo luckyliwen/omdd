@@ -134,12 +134,12 @@
                                             </Label>
                                             <CheckBox
                                                 text=""
-                                                selected="{useFilterBar}">
+                                                selected="{bUseSmartFilterBar}">
                                             </CheckBox>
                                             <Label
                                                 text="Smart Filter Bar ID">
                                             </Label>
-                                            <Input>
+                                            <Input  enabled="{= ${bUseSmartFilterBar} }" value="{smartFilterBarId}">
                                             </Input>
                                             <Label
                                                 text="Table Types:">

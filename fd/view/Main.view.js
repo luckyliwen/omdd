@@ -72,7 +72,7 @@ sap.ui.jsview("fd.view.Main", {
 			showFeederTool: false,
 			
 			worksetItems: [  new sap.ui.ux3.NavigationItem("NavItem_Project", 
-								{key:"NavItem_Project",	text:"Project"}),
+								{key:"NavItem_Project",	text:"Main Workspace"}),
 								
 							new sap.ui.ux3.NavigationItem("NavItem_Assist", 
 										{key:"NavItem_Assist",   text:"Development Assistant"}),

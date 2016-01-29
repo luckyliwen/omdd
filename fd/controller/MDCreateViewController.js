@@ -70,21 +70,22 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 				"useXmlView": true,
 				"viewName": "SampleView",
 				"controllerName": "SampleController",
-				"templateType": "Form",   //Form FilterBarTable SmartTemplate
+				"templateType": "FilterBarTable",   //Form FilterBarTable SmartTemplate
 				"formType":   "Form",         //SmartForm  SimpleForm Form
-				"useSmartFilter": false,
-				"tableType": "tableType",       //Table  ResponsiveTable  AnalyticalTable TreeTable
-				"smartTableType": "Table",  //SmartTable  SmartTableTable  Table,
+				
+				"tableType":    "Table",       //Table  ResponsiveTable  AnalyticalTable TreeTable
+				"smartTableType": "SmartTableTable",  //SmartTable  SmartTableTable  Table,
 				
 				"addId"         : false,      //whether add add for each items
-				"labelType"      : fd.Template.LabelType.NameLabel,   //like {/#Pa"ytProposal/RunDate/@sap:label}
+				"labelType"      : fd.Template.LabelType.MDLabel,   //like {/#PaytProposal/RunDate/@sap:label}
 
 				//
 				"bMobile" :     true,           //control the sap.m  or sap.ui.commons controls 
 				"bReadonly" :    true,          //use sap.m.Text or sap.m.Input
 				'bSapLabel' :    true,          //use sap:label or property name
-				"smartFilterId": "SmartFilterBar",
-				"topControlType":  fd.Template.TopControlType.NoPage,
+				'bUseSmartFilterBar':     true,
+				"smartFilterBarId":    "SmartFilterBar",
+				"topControlType":  fd.Template.TopControlType.Page,
 
 				//metadata related data, put here for convenient
 				"entityType": currentMDInfo.entityType,
@@ -130,12 +131,17 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 			aProp: [],  //entity type prop table, for simple just clone data here
 			aGroup: [], 
 			mFormItem: {},  //the detail item, 
-			aTableItem: [],  //for the table {value:}
+			aTableItem: [],  //for the table {value:},
+			aSmartFilterBarKey: [], //the selected keys by order
+			aSmartFilterBarProp: [], //the candidate list of the prop with F4
 		};
 
 		//need clone the prop table as later it need add/remove
 		var aProp = fd.util.collection.getLeafBindingData( this.masterController.mTable[ fd.MDObject.EntityType]);
 		jQuery.extend(true, this.mViewData.aProp, aProp);
+
+		//for the smart fitler bar list need create a table as otherwise after selected field then can't do selection
+		this.mViewData.aSmartFilterBarProp = _.filter( aProp, 'f4');
 
 		this.oViewModel = new sap.ui.model.json.JSONModel();
 		this.oViewModel.setData(this.mViewData);
@@ -223,14 +229,18 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 
         this.adjustViewByTemplateType();
         
+        //need ensure the canvas id is there, so need delay call
         jQuery.sap.delayedCall(50, this, this.showMainControl);
         this.createViewDlg.open();
+
+        if (this.byId("itemDefineSmartFilterBar").getEnabled()) {
+			this.onDefineSmartFilterBarPressed();        	
+        }
 	},
 	
 	showMainControl: function(  ) {
 	    if (this.mainCtrl) {
 	    	this.mainCtrl.placeAt(this.getCanvasContainerId(), "only");
-	    	console.error("$$$ now place mainCtrl", this.mainCtrl.getId(), this.mainCtrl.getMetadata());
 	    }
 	},
 	
@@ -240,6 +250,10 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 	},
 	
 	adjustViewByTemplateType: function( evt ) {
+		var enableSmartFilterBarBtn = (this.mViewData.setting.templateType == "FilterBarTable") &&
+								this.mViewData.setting.bUseSmartFilterBar;  
+		this.byId("itemDefineSmartFilterBar").setEnabled(enableSmartFilterBarBtn);
+		
 	    switch ( this.mViewData.setting.templateType ) {
         	case fd.Template.TemplateType.Form:
         		this.tableGroup.setVisible(true);
@@ -293,9 +307,6 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
         this.mainCtrl = this.templateDelegate.createMainControl(
         	this.createODataModelForCanvas()
         );
-        //just call placeAt is ok
-        
-        // mainCtrl.placeAt(this.getCanvasContainerId());
 	},
 	
 
@@ -537,6 +548,72 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 		this.oItemFacade.moveSelection("Bottom");
 		this.templateDelegate.moveItems(selection, "Bottom");
 	},
+
+	onDefineSmartFilterBarPressed: function( oEvent ) {
+	    if (!this._oDefineSmartFilterBarDlg) {
+			this._oDefineSmartFilterBarDlg = sap.ui.xmlfragment(this.getView().getId(),
+					 "fd.view.fragments.DefineSmartFilterBarDialog", this);
+			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDefineSmartFilterBarDlg);
+			this.byId("tableSmartFilterBarKey").setModel( this.oViewModel);
+		}
+		//the table may change to different row, need reresh 
+		this.byId("tableSmartFilterBarKey").bindRows("/aSmartFilterBarProp");
+
+		this._oDefineSmartFilterBarDlg.open();
+	},
+
+	onSmartFilterBarRowSelectionChanged: function(oEvent) {
+		var table = oEvent.getSource();
+		var changedIdxs = oEvent.getParameter("rowIndices");
+		var selIdx = table.getSelectedIndices();
+		var text =  this.byId('selectedSmartFilterBarKeys').getValue();
+
+		for (var i=0; i < changedIdxs.length; i++) {
+			var  idx = changedIdxs[i];
+			
+			var context =table.getContextByIndex(idx);
+			var key = context.getProperty('name');
+
+			var pos = selIdx.indexOf(idx);
+			if (pos == -1) {
+				//remove the key, perhaps need remove the , also
+				if ( text.indexOf( key + ',') != -1) {
+					text = text.replace(key + ',' , '');
+				} else {
+					text = text.replace(key  , '');
+				}
+			} else {
+				//add to the end, need check whether already existed or not 
+				if (text.indexOf(key) == -1) {
+					if (text.length) {
+						text = text + "," + key;
+					} else {
+						text = key;
+					}
+				}
+			}
+		}
+
+		this.byId('selectedSmartFilterBarKeys').setValue(text);
+	},
+
+	onDefineSmartFilterBarOkPressed: function( evt ) {
+		var newKeys = this.byId('selectedSmartFilterBarKeys').getValue().split(',');
+		var bSame = _.eq(this.mViewData.aSmartFilterBarKey, newKeys);
+		this.mViewData.aSmartFilterBarKey = newKeys;
+		if (!bSame) {
+			// this.templateDelegate.changeSmartFilterBarKeys(newKeys);
+		}
+
+	    this._oDefineSmartFilterBarDlg.close();
+	},
+	
+	onDefineSmartFilterBarCancelPressed: function( evt ) {
+	    this._oDefineSmartFilterBarDlg.close();
+	},
+	
+
+	
 	
 	//=======global variables
 	//oMockServerExt 

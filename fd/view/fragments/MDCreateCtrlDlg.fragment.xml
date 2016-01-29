@@ -7,7 +7,7 @@
 
     <Dialog
         contentWidth="1500px"
-        contentHeight="1360px"
+        contentHeight="1480px"
         title="Create common control by simple click,enjoy it!">
         <content>
             <commons:Splitter
@@ -20,7 +20,7 @@
                         visibleRowCount="25"
                         selectionMode="MultiToggle"
                         showColumnVisibilityMenu="true"
-                        rows="{/aProp}"
+                        rows="{/aSmartFilterBarProp}"
                         title="Properties:">
                         <table:columns>
                             <table:Column
@@ -188,8 +188,8 @@
                                                         tooltip="Move to Bottom"
                                                         press="onCreateGroupBottomPressed">
                                                     </commons:Button>
-                                                    <ToolbarSpacer>
-                                                    </ToolbarSpacer>
+                                                    <ToolbarSpacer />
+
                                                 </content>
                                             </Toolbar>
                                         </infoToolbar>
@@ -283,8 +283,15 @@
                                                         tooltip="Move to Bottom"
                                                         press="onCreateItemBottomPressed">
                                                     </commons:Button>
-                                                    <ToolbarSpacer>
-                                                    </ToolbarSpacer>
+                                                    <ToolbarSpacer />
+
+                                                     <commons:Button
+                                                        id="itemDefineSmartFilterBar"
+                                                        text="Define Smart Filter Bar"
+                                                        tooltip="Define Smart Filter Bar"
+                                                        press="onDefineSmartFilterBarPressed">
+                                                    </commons:Button>
+
                                                 </content>
                                             </Toolbar>
                                         </table:toolbar>

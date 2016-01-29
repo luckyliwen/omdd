@@ -8,6 +8,9 @@ fd.model.ODataMng = {
 		this._oDesignModel = null; 
 		this.oDataMetadataUrl ="";
 		this.oDataMetadataContent = "";
+
+		fd.bus.subscribe("metadata", "OpenFromUrl", this.loadMetadataFromUrl, this);
+		fd.bus.subscribe("metadata", "OpenFromFile", this.loadMetadataFromFile,this);
 	},
 
 	setDesignModel: function(oModel) {
@@ -30,6 +33,23 @@ fd.model.ODataMng = {
 		return this._aModelEntry;
 	},
 	
+	loadMetadataFromFile: function(channel, envent, mArg ) {
+	    this.oDataMetadataContent = mArg.content; 
+		this.parseMetadata( this.oDataMetadataContent, true);
+	},
+	
+	loadMetadataFromUrl: function( channel, envent, mArg ) {
+	    var url = mArg.url.trim();
+		//some case user input the /$metadata, in this case just simple remove it 
+		url = url.replace("/$metadata", "");
+		this.oDataMetadataUrl = url;
+
+		this.oDataModel  = new  sap.ui.model.odata.ODataModel(url, true);
+		this.oDataModel.attachMetadataFailed( true, this.onODataMetadataFailed, this);
+		this.oDataModel.attachMetadataLoaded( true, this.onODataMetadataLoad, this);
+	},
+	
+
 	onOkPressed: function() {
 		this.oDataMetadataUrl ="";
 		this.oDataMetadataContent = "";

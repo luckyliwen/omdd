@@ -20,6 +20,7 @@ sap.ui.commons.Dialog.extend("fd.view.InputDlg", {
 
 			renderer :"sap.ui.commons.DialogRenderer",
 
+
 			createContentForViewControlName: function(data) {
 				// just use the simple Form
 				
@@ -40,13 +41,13 @@ sap.ui.commons.Dialog.extend("fd.view.InputDlg", {
 
 					//then for text field				
 					sWidth ="300px";
+
+					//for metadata url, need longer 
+					var inputType = this.getInputType();
+					if (inputType == fd.InputType.MetadataUrl )
+						sWidth = '600px';
 					var tf = new sap.ui.commons.TextField({width: sWidth});
-					/*if (data.mandatory[i]) {
-						tf.setPlaceholder('mandatory');
-					} else {
-						
-					}*/
-					
+
 					label.setLabelFor(tf);
 
 					this._aTextFields.push(tf);
@@ -392,6 +393,7 @@ sap.ui.commons.Dialog.extend("fd.view.InputDlg", {
 					case fd.InputType.ViewController: //fall down
 					case fd.InputType.ViewContent:	
 					case fd.InputType.Fragment:
+					case fd.InputType.MetadataUrl:
 						//just set the textfiled to null
 						this._aTextFields.forEach( function(tf) {
 							tf.setValue("");
@@ -441,6 +443,10 @@ sap.ui.commons.Dialog.extend("fd.view.InputDlg", {
 					case fd.InputType.AllControl:
 						content = this.createContentForAllcontrol(data);
 						break;
+					case fd.InputType.MetadataUrl:
+						//now use same logic as the Fragment
+						content = this.createContentForViewControlName(data);
+						break;	
 					default:
 						break;
 				}
@@ -503,7 +509,8 @@ sap.ui.commons.Dialog.extend("fd.view.InputDlg", {
 					case fd.InputType.ViewController:        //fall down
 					case fd.InputType.ViewControllerFromFile: //fall down
 					case fd.InputType.Fragment:
-					case fd.InputType.ViewContent:	
+					case fd.InputType.ViewContent:
+					case fd.InputType.MetadataUrl:	
 					{
 							for (var i = 0; i < this._aTextFields.length; i++) {
 								if ( ctrlInfo.mandatory[i]) {
@@ -569,6 +576,7 @@ sap.ui.commons.Dialog.extend("fd.view.InputDlg", {
 					case fd.InputType.ViewController:  //fall down
 					case fd.InputType.Fragment:      //fall down
 					case fd.InputType.ViewControllerFromFile:	
+					case fd.InputType.MetadataUrl:	
 						for (i = 0; i < this._aTextFields.length; i++) {
 							tf = this._aTextFields[i];
 							arr.push(tf.getValue().trim());
@@ -651,7 +659,13 @@ sap.ui.commons.Dialog.extend("fd.view.InputDlg", {
 					mandatory: [ true, true],
 				},
 					
-					
+				"MetadataUrl": {
+					title : "Url of the OData Metadata",
+					labels : ["* OData Url"],
+					mandatory: [ true],
+					idxDelta: 0,
+				},
+
 				'AllControl': {
 					title: "Select one Control",
 				},
