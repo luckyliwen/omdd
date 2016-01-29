@@ -1,0 +1,111 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:layout="sap.ui.layout"
+    xmlns:commons="sap.ui.commons"
+    xmlns:core="sap.ui.core">
+
+    <SplitApp
+        height="800px">
+        <masterPages>
+            <Page
+                title="Mock Data">
+                <content>
+                    <html:div
+                        style="height:1rem">
+                    </html:div>
+                    <SearchField
+                        id="searchMockData"
+                        search="onListSearchPressed" liveChange="onListSearchLiveChanged">
+                    </SearchField>
+                    <List
+                        id="listMockData"
+                        noDataText="no mock data"
+                        mode="SingleSelectMaster"
+                        selectionChange="onListSelectionChanged"
+                        items="{/aMockData}">
+                        <items>
+                            <StandardListItem
+                                title="{name}">
+                            </StandardListItem>
+                        </items>
+                    </List>
+                </content>
+            </Page>
+        </masterPages>
+        <detailPages>
+            <Page
+                title="Mock Data for {name} "
+                id="dpageMockData">
+                <content>
+                    <html:div
+                        style="height:1rem">
+                    </html:div>
+
+                    <!-- table need generate dynamic -->
+                                            <Toolbar>
+                                            <content>
+                                                    <commons:Button
+                                                        id="groupAddBtn"
+                                                        icon="sap-icon://add"
+                                                        text="Add"
+                                                        press="onMockDataAddPressed">
+                                                    </commons:Button>
+
+                                                    <commons:Button
+                                                        id="mockDataDeleteBtn"
+                                                        icon="sap-icon://delete"
+                                                        text="Delete"
+                                                        press="onCreateGropDelPressed">
+                                                    </commons:Button>
+
+                                                    <ToolbarSpacer />
+                                                    <commons:Button
+                                                        id="mockDataTopBtn"
+                                                        icon="sap-icon://arrow-top"
+                                                        tooltip="Move to Top"
+                                                        press="onMockDataTopPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="mockDataUpBtn"
+                                                        icon="sap-icon://slim-arrow-up"
+                                                        tooltip="Move Up"
+                                                        press="onMockDataUpPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="mockDataDownBtn"
+                                                        icon="sap-icon://slim-arrow-down"
+                                                        tooltip="Move Down"
+                                                        press="onMockDataDownPressed">
+                                                    </commons:Button>
+                                                    <commons:Button
+                                                        id="mockDataBottomBtn"
+                                                        icon="sap-icon://arrow-bottom"
+                                                        tooltip="Move to Bottom"
+                                                        press="onMockDataBottomPressed">
+                                                    </commons:Button>
+
+                                                    <ToolbarSpacer />
+
+                                                    <commons:Button
+                                                        id="mockDataGenerateRandomBtn"
+                                                        icon="sap-icon://activate"
+                                                        text="Generate Random Data"
+                                                        press="onMockDataGenerateRandomPressed">
+                                                    </commons:Button>
+
+                                                    <commons:Button
+                                                        id="mockDataSaveToFileBtn"
+                                                        icon="sap-icon://save"
+                                                        text="Save as JSON file"
+                                                        press="onMockDataSaveToFilePressed">
+                                                    </commons:Button>
+
+                                                </content>
+                                            </Toolbar>
+
+                </content>
+            </Page>
+        </detailPages>
+    </SplitApp>
+</core:FragmentDefinition>

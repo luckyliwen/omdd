@@ -48,7 +48,7 @@ fd.MetaType ={
 fd.MDObject = {
 	EntitySet: "EntitySet" ,  EntityType: "EntityType", 
 	AssociationSet: "AssociationSet", Association: "Association", 
-	Annotation: "Annotation", FunctionImport: "FunctionImport"
+	Annotation: "Annotation", FunctionImport: "FunctionImport", MockData: 'MockData'
 };
 
 fd.NodeType = {

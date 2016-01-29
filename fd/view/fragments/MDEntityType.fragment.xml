@@ -66,6 +66,15 @@
                         text="Create Controls"
                         press="onEntityType_CreateCtrlPressed">
                     </Button>
+
+                    <Button
+                        id="btnEntityTypeCreateMockData"
+                        icon="sap-icon://database" 
+                        type="Emphasized"
+                        text="Edit Mock Data"
+                        press="onEntityType_CreateMockDataPressed">
+                    </Button>
+
                 </content>
             </Toolbar>
         </customHeader>

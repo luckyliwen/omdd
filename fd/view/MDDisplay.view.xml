@@ -71,6 +71,15 @@
                 </content>
             </IconTabFilter>
 
+            <IconTabFilter
+                text="Mock Data"  key="MockData">
+                <content>
+                    <core:Fragment
+                        fragmentName="fd.view.fragments.MDMockData" type="XML">
+                    </core:Fragment>
+                </content>
+            </IconTabFilter>
+
         </items>
         <content>
           

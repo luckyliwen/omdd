@@ -625,7 +625,8 @@ aMultiplicity;*/
 			aAnnotation: [],
 			aFunctionImport: [],
 			aAssociation: [],
-			aAssociationSet: []
+			aAssociationSet: [],
+			aMockData: [], 
 			// general: {}, //the 
 		};
 

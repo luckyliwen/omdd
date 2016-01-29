@@ -207,8 +207,8 @@ fd.controller.MDTemplate.extend("fd.controller.MDTableTemplate", {
 	    	this._smartFilterBar = smartFilter;
 
 	    	//??
-	    	var aKey = ['RunID', 'CreatedBy'];
-	    	this.changeSmartFilterBarKeys(aKey);
+	    	// var aKey = ['RunID', 'CreatedBy'];
+	    	// this.changeSmartFilterBarKeys(aKey);
 
 	    	return [smartFilter, retTable];
 	    } else {

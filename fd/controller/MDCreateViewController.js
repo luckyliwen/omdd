@@ -45,11 +45,12 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 	    		this.oMockServerExt.startSimulate();
 	    	}
 
+			// this.oDataModelForCanvas = new sap.ui.model.odata.ODataModel(url, true);
 			this.oDataModelForCanvas = new sap.ui.model.odata.v2.ODataModel(url, true);
 
 	    	//??as some odata not implement the batch model, so here disable it
 	    	// this.oDataModelForCanvas.setCountSupported(false);
-			this.oDataModelForCanvas.setUseBatch( false );
+			// this.oDataModelForCanvas.setUseBatch( false );
 	    }
 	    
 	    return this.oDataModelForCanvas;
@@ -251,9 +252,10 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 	
 	adjustViewByTemplateType: function( evt ) {
 		var enableSmartFilterBarBtn = (this.mViewData.setting.templateType == "FilterBarTable") &&
-								this.mViewData.setting.bUseSmartFilterBar;  
+								this.mViewData.setting.bUseSmartFilterBar &&
+								this.mViewData.aSmartFilterBarProp.length >0 ;  
 		this.byId("itemDefineSmartFilterBar").setEnabled(enableSmartFilterBarBtn);
-		
+
 	    switch ( this.mViewData.setting.templateType ) {
         	case fd.Template.TemplateType.Form:
         		this.tableGroup.setVisible(true);
@@ -348,7 +350,7 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 	//
 	createItemLabel: function( name ) {
 		var ret;
-	    switch (this.mViewData.setting.labelType) {
+	/*    switch (this.mViewData.setting.labelType) {
 	    	case fd.Template.LabelType.MDLabel: 
 	    		//<Label text="{/#PaytProposal/RunDate/@sap:label}" />
 	    		ret = "{/#{0}/{1}/@sap:label}".sapFormat(
@@ -359,6 +361,12 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 	    		break;
 	    	default:
 	    		break;
+	    }*/
+	    if ( this.mViewData.setting.bSapLabel) {
+			ret = "{/#{0}/{1}/@sap:label}".sapFormat(
+	    		this.mViewData.setting.entityType, name);
+	    } else {
+	    	ret = name;
 	    }
 	    return ret;
 	},
@@ -602,7 +610,7 @@ sap.ui.controller("fd.controller.MDCreateViewController",{
 		var bSame = _.eq(this.mViewData.aSmartFilterBarKey, newKeys);
 		this.mViewData.aSmartFilterBarKey = newKeys;
 		if (!bSame) {
-			// this.templateDelegate.changeSmartFilterBarKeys(newKeys);
+			this.templateDelegate.changeSmartFilterBarKeys(newKeys);
 		}
 
 	    this._oDefineSmartFilterBarDlg.close();

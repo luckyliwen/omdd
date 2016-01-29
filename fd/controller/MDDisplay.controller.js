@@ -326,6 +326,7 @@ sap.ui.controller("fd.controller.MDDisplay",{
 
 	},
 
+
 	onEntityType_CreateCtrlPressed: function(oEvent) {
 		if ( !this._createViewController) {
 			//first time need connect it to the view 
@@ -359,6 +360,188 @@ sap.ui.controller("fd.controller.MDDisplay",{
 	    return mData;
 	},
 
+	onEntityType_CreateMockDataPressed : function( evt ) {
+	    var table = this.mTable.EntityType;
+	    var aRow = fd.util.collection.getSelection(table);
+	    if (aRow.length ==0) {
+	    	fd.uilib.Message.warning('Must select one property to generate Mock Data');
+	    	return;
+	    }
+
+	    //try to add new row, 
+	    var bc = table.getBindingContext();
+	    var etData = bc.getProperty();
+
+		this._addEntryForNewMockData(etData, aRow);
+
+	    this.showMetaDataByName(fd.MDObject.MockData, etData.entitySet);
+	},
+
+	/**
+	 * [_addEntryForNewMockData description]
+	 * @param {[type]} etData : entity type data, can know keys,
+	 */
+	_addEntryForNewMockData : function(etData, aSelProp ) {
+	    var model = this.getView().getModel();
+	    var mData = model.getData();
+
+	    var existedData = _.find( mData.aMockData, { name: etData.entitySet});
+	    var dpage = this.mDPage.MockData;
+
+	    if (!existedData) {
+	    	var entry = {
+	    		name:  etData.entitySet,
+	    		aMeta: aSelProp,
+	    		aData: []
+	    	};
+			var mNewEntry = {};
+	    	var table = this._createMockDataTable(aSelProp, mNewEntry);
+	    	entry.oTable = table;
+	    	mData.aMockData.push(entry);
+
+	    	entry.aData.push(jQuery.extend(true, {}, mNewEntry));
+	    	entry.mNewEntry = mNewEntry;
+
+	    	//need refresh it
+	    	model.setData(mData);
+
+	    	dpage.addContent(table);
+	    } else {
+	    	//just get from 
+	    	//remove the last object, add mapped one
+	    	var aContent = dpage.getContent();
+	    	var last = aContent.slice(-1);
+	    	
+	    	dpage.removeContent(last);
+
+	    	dpage.addContent( existedData.oTable );
+	    }
+	},
+	
+	_createMockDataTable : function( aSelProp , mNewEntry) {
+		function  createColumn( prop) {
+			var type = prop.type.sapLastPart('.') ; 
+			var label = prop.name + ' (' + type + ')';
+			var name = prop.name;
+			var path = "{" + prop.name + "}";
+			var template = null;
+
+			switch (type) {
+				case 'Boolean': 
+					template = new sap.m.Switch({
+						customTextOn: 'true',
+						customTextOff: 'false',
+						state: path
+					});
+					mNewEntry[name] = true;
+					break;
+				case "DateTime": 
+					template = new sap.ui.commons.DatePicker({
+						value: path
+					});
+					mNewEntry[name] = undefined;
+					break;
+				default:
+					template = new sap.m.Input({
+						value: path
+					});
+					mNewEntry[name] = '';
+			}
+
+			return new sap.ui.table.Column({
+				label: label, 
+				template: template
+			});    
+		}
+		
+		var aColumn = [];
+		for (var i=0; i < aSelProp.length; i++) {
+			var prop = aSelProp[i];
+			aColumn.push( createColumn(prop) );
+		}
+		var table = new sap.ui.table.Table({
+			 selectionMode: "MultiToggle",
+			 columns: aColumn
+		});
+		table.bindRows("aData");
+		return table;
+	},
+
+
+	onMockDataAddPressed: function( oEvent ) {
+		// var model = bc.getModel();
+		// var mData = model.getData();
+		var page = this.mDPage.MockData;
+		var bc = page.getBindingContext();
+		var data = bc.getProperty();
+		data.aData.push(  jQuery.extend(true, {}, data.mNewEntry));
+
+		//how to refresh it 
+		var oTable = data.oTable;
+		oTable.unbindRows();
+		oTable.bindRows('aData');
+	},
+	
+	_generatePropertyValue : function(sKey, sType, mComplexTypes, iIndexParameter) {
+				var iIndex = iIndexParameter;
+				if (!iIndex) {
+					iIndex = Math.floor(Math.random() * 10000) + 101;
+				}
+				switch (sType) {
+					case "String":
+						return sKey + " " + iIndex;
+					case "DateTime":
+						var date = new Date();
+						date.setFullYear(2000 + Math.floor(Math.random() * 20));
+						date.setDate(Math.floor(Math.random() * 30));
+						date.setMonth(Math.floor(Math.random() * 12));
+						date.setMilliseconds(0);
+						return "/Date(" + date.getTime() + ")/";
+					case "Int16":
+					case "Int32":
+					case "Int64":
+						return Math.floor(Math.random() * 10000);
+					case "Decimal":
+						return Math.floor(Math.random() * 1000000) / 100;
+					case "Boolean":
+						return Math.random() < 0.5;
+					case "Byte":
+						return Math.floor(Math.random() * 10);
+					case "Double":
+						return Math.random() * 10;
+					case "Single":
+						return Math.random() * 1000000000;
+					case "SByte":
+						return Math.floor(Math.random() * 10);
+					case "Time":
+						// ODataModel expects ISO8601 duration format
+						return "PT" + Math.floor(Math.random() * 23) + "H" + Math.floor(Math.random() * 59) + "M" + Math.floor(Math.random() * 59) + "S";
+					case "Guid":
+						return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+							var r = Math.random() * 16 | 0,
+								v = c === 'x' ? r : (r & 0x3 | 0x8);
+							return v.toString(16);
+						});
+					case "Binary":
+						var nMask = Math.floor(-2147483648 + Math.random() * 4294967295),
+							sMask = "";
+						/*eslint-disable */
+						for (var nFlag = 0, nShifted = nMask; nFlag < 32; nFlag++, sMask += String(nShifted >>> 31), nShifted <<= 1)
+						;
+						/*eslint-enable */
+						return sMask;
+					case "DateTimeOffset":
+						date = new Date();
+						date.setFullYear(2000 + Math.floor(Math.random() * 20));
+						date.setDate(Math.floor(Math.random() * 30));
+						date.setMonth(Math.floor(Math.random() * 12));
+						date.setMilliseconds(0);
+						return "/Date(" + date.getTime() + "+0000)/";
+					default:
+						return "";
+				}
+			}
+	
 	//global data: 
 	//passed from ODataMng
 	// this.oDataMetadataUrl = data.oDataMetadataUrl;
