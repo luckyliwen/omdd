@@ -46,7 +46,7 @@
                                             <Toolbar>
                                             <content>
                                                     <commons:Button
-                                                        id="groupAddBtn"
+                                                        id="mockAddBtn"
                                                         icon="sap-icon://add"
                                                         text="Add"
                                                         press="onMockDataAddPressed">
