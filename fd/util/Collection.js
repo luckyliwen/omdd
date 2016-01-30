@@ -202,7 +202,10 @@ fd.util.collection = {
 		ctrl.invalidate();
 	},
 	
-
+	appendCollection: function( ctrl, aData ) {
+	    return this.insertCollection(ctrl, aData);
+	},
+	
 	insertCollection: function(ctrl, aData, pos) {
 		var leafData = this.getLeafBindingData(ctrl);
 		if (!leafData)
@@ -238,6 +241,11 @@ fd.util.collection = {
 	    }
 	},
 	
+	/**
+	 * Delete  the selection, and return the deleted array
+	 * @param  {[type]} ctrl [description]
+	 * @return {[type]}      [description]
+	 */
 	deleteSelection: function(ctrl) {
 		var arr = this.getSelectedIndices(ctrl);
 		if (arr.length == 0)

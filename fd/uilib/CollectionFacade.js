@@ -27,6 +27,9 @@ sap.ui.core.Element.extend("fd.uilib.CollectionFacade", {
 			//for each item, if is string, then call the byId() to get real object
 			'moveButtons'       : {type:"array", defaultValue: null },
 
+			//the button for the add new row to table
+			// 'addButton'         : {type:"any", defaultValue: null },
+			'delButton'         : {type:"any", defaultValue: null },
 
 			//the buttons need auto check the enable/disable status, can be array or single one
 			'monitButtons'       : {type:"array", defaultValue: null },
@@ -35,8 +38,6 @@ sap.ui.core.Element.extend("fd.uilib.CollectionFacade", {
 			//
 			//the controller, use it to get the buttons by call .byId. Must be set before set the buttons
 			'controller'       : {type:"any", defaultValue: null },
-
-
 		},
 
 		aggregations : {
@@ -87,24 +88,36 @@ sap.ui.core.Element.extend("fd.uilib.CollectionFacade", {
 	},
 
 	//internal function for easy setting
-	_setMoveButtonByName: function(idOrObject, propName) {
+	_setRealButtonByName: function(idOrObject, propName) {
 		var btn = this._getButton(idOrObject);
 		if (btn) {
 			this.setProperty(propName, btn, true);
 		}
 	},
 
+	setDelButton: function(idOrObject) {
+		this._setRealButtonByName(idOrObject, 'delButton');
+
+		//and auto register the press event for it 
+		var btn = this.getDelButton();
+		var  that = this;
+		btn.attachPress(function( oEvent ) {
+		    var control = that.getControl();
+		    fd.util.collection.deleteSelection(control);
+		});
+	},
+
 	setMoveTopButton: function(idOrObject) {
-		this._setMoveButtonByName(idOrObject, 'moveTopButton');
+		this._setRealButtonByName(idOrObject, 'moveTopButton');
 	},
 	setMoveUpButton: function(idOrObject) {
-		this._setMoveButtonByName(idOrObject, 'moveUpButton');
+		this._setRealButtonByName(idOrObject, 'moveUpButton');
 	},
 	setMoveDownButton: function(idOrObject) {
-		this._setMoveButtonByName(idOrObject, 'moveDownButton');
+		this._setRealButtonByName(idOrObject, 'moveDownButton');
 	},
 	setMoveBottomButton: function(idOrObject) {
-		this._setMoveButtonByName(idOrObject, 'moveBottomButton');
+		this._setRealButtonByName(idOrObject, 'moveBottomButton');
 	},
 
 	setMonitButtons : function(buttons) {
@@ -155,7 +168,8 @@ sap.ui.core.Element.extend("fd.uilib.CollectionFacade", {
 		if (aSelIndex.length==0) {
 			bEnabled = false; 
 			//all disable 
-			this._setButtonEnabled(["moveTopButton", "moveUpButton", "moveDownButton", "moveBottomButton","monitButtons"], false);
+			this._setButtonEnabled(["moveTopButton", "moveUpButton", "moveDownButton", "moveBottomButton",
+				"monitButtons",  'delButton'], false);
 		} else {
 			//have some item selected, need check the status one by one, as it need more logic
 			this._setButtonEnabled("monitButtons", true, true);
@@ -184,6 +198,9 @@ sap.ui.core.Element.extend("fd.uilib.CollectionFacade", {
 			if ( typeof btn =='string') {
 				btn = this.getProperty(btn);
 			}
+
+			if (!btn)
+				continue;
 
 			var btnStatus = status;
 

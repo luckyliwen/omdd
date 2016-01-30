@@ -695,6 +695,7 @@ aMultiplicity;*/
 
 		var oModel = new sap.ui.model.json.JSONModel();
 		oModel.setSizeLimit(1000);		
+		oModel.setDefaultBindingMode("TwoWay");
 		oModel.setData( mData);
 
 		if (bUsedAsDesignModel) {

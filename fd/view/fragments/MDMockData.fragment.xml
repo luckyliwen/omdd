@@ -22,7 +22,7 @@
                         id="listMockData"
                         noDataText="no mock data"
                         mode="SingleSelectMaster"
-                        selectionChange="onListSelectionChanged"
+                        selectionChange="onMockDataListSelectionChanged"
                         items="{/aMockData}">
                         <items>
                             <StandardListItem
@@ -46,7 +46,7 @@
                                             <Toolbar>
                                             <content>
                                                     <commons:Button
-                                                        id="mockAddBtn"
+                                                        id="mockDataAddBtn"
                                                         icon="sap-icon://add"
                                                         text="Add"
                                                         press="onMockDataAddPressed">
@@ -56,37 +56,34 @@
                                                         id="mockDataDeleteBtn"
                                                         icon="sap-icon://delete"
                                                         text="Delete"
-                                                        press="onCreateGropDelPressed">
+                                                        press="onMockDataDelPressed">
                                                     </commons:Button>
 
                                                     <ToolbarSpacer />
                                                     <commons:Button
                                                         id="mockDataTopBtn"
                                                         icon="sap-icon://arrow-top"
-                                                        tooltip="Move to Top"
-                                                        press="onMockDataTopPressed">
+                                                        tooltip="Move to Top">
                                                     </commons:Button>
                                                     <commons:Button
                                                         id="mockDataUpBtn"
                                                         icon="sap-icon://slim-arrow-up"
-                                                        tooltip="Move Up"
-                                                        press="onMockDataUpPressed">
+                                                        tooltip="Move Up" >
                                                     </commons:Button>
                                                     <commons:Button
                                                         id="mockDataDownBtn"
                                                         icon="sap-icon://slim-arrow-down"
-                                                        tooltip="Move Down"
-                                                        press="onMockDataDownPressed">
+                                                        tooltip="Move Down" >
                                                     </commons:Button>
                                                     <commons:Button
                                                         id="mockDataBottomBtn"
                                                         icon="sap-icon://arrow-bottom"
-                                                        tooltip="Move to Bottom"
-                                                        press="onMockDataBottomPressed">
+                                                        tooltip="Move to Bottom" >
                                                     </commons:Button>
 
                                                     <ToolbarSpacer />
 
+                                                    <commons:TextField  id='mockDataRandomCount' value='10' />
                                                     <commons:Button
                                                         id="mockDataGenerateRandomBtn"
                                                         icon="sap-icon://activate"

@@ -7,6 +7,10 @@ sap.ui.controller("fd.controller.MDDisplay",{
 	 
 	onInit: function() {
 		gmdd = this;
+		this.byId('mockDataTopBtn').attachPress( 'Top', this.onMockDataMovedPressed, this);
+		this.byId('mockDataUpBtn').attachPress( 'Up', this.onMockDataMovedPressed, this);
+		this.byId('mockDataDownBtn').attachPress( 'Down', this.onMockDataMovedPressed, this);
+		this.byId('mockDataBottomBtn').attachPress( 'Bottom', this.onMockDataMovedPressed, this);
 	},
 
 	setMetaData: function(data) {
@@ -118,6 +122,28 @@ sap.ui.controller("fd.controller.MDDisplay",{
 				binding.filter( filter);
 			}
 		}
+	},
+
+	/**
+	 * As it need switch the table, so it need specal handle
+	 * @param  {[type]} evt [description]
+	 * @return {[type]}     [description]
+	 */
+	onMockDataListSelectionChanged: function( oEvent ) {
+	    var item =  this.mList.MockData.getSelectedItem(); 
+		var context = item.getBindingContext();
+		var  table = context.getProperty('oTable');
+		var page = this.mDPage.MockData;
+		var currTable = _.last(  page.getContent());
+
+		//for first time add, no previous table, so need check 
+		if (fd.util.collection.isTable(currTable)) {
+			page.removeContent( currTable);
+		}
+		
+		page.addContent( table ); 
+		//and bind to new context
+		page.bindElement( context.getPath() );
 	},
 
 	/**
@@ -312,6 +338,11 @@ sap.ui.controller("fd.controller.MDDisplay",{
 			} else {
 				if (item.getTitle() == name) {
 					item.setSelected(true);
+					if (mdType == 'MockData') {
+						this.onMockDataListSelectionChanged();
+					} else {
+						this.onListSelectionChanged(null, mdType);
+					}
 					this.onListSelectionChanged(null, mdType);
 					fd.util.list.ensureItemVisible(this.mList[mdType], item);
 					break;
@@ -388,39 +419,73 @@ sap.ui.controller("fd.controller.MDDisplay",{
 	    var existedData = _.find( mData.aMockData, { name: etData.entitySet});
 	    var dpage = this.mDPage.MockData;
 
+	    //now save the property meta just remove the Edm. for later easy handle 
+	    var aSimpleMeta = _.map(aSelProp, function( meta ) {
+	        	var newMeta = _.clone(meta);
+	        	newMeta.type = newMeta.type.sapLastPart('.');
+	        	return newMeta;  
+	    	}
+	    );
+
 	    if (!existedData) {
 	    	var entry = {
 	    		name:  etData.entitySet,
-	    		aMeta: aSelProp,
+	    		aMeta: aSimpleMeta,
 	    		aData: []
 	    	};
 			var mNewEntry = {};
-	    	var table = this._createMockDataTable(aSelProp, mNewEntry);
+	    	var table = this._createMockDataTable(aSimpleMeta, mNewEntry);
 	    	entry.oTable = table;
 	    	mData.aMockData.push(entry);
 
 	    	entry.aData.push(jQuery.extend(true, {}, mNewEntry));
 	    	entry.mNewEntry = mNewEntry;
 
+            var oMockDataFacade = new fd.uilib.TableFacade({controller: this});
+          	fd.util.setPropMapToElement( oMockDataFacade, {
+	            	control:  table,
+	            	moveButtons: ["mockDataTopBtn","mockDataUpBtn","mockDataDownBtn","mockDataBottomBtn"],
+	            	monitButtons:  'mockDataDeleteBtn'          	
+	            });
+            oMockDataFacade.attachDefaultSelectionChangeEvent();
+			entry.oFacade = oMockDataFacade;
+			oMockDataFacade.setInitialButtonStatus();
+
 	    	//need refresh it
 	    	model.setData(mData);
 
-	    	dpage.addContent(table);
+	    	// dpage.addContent(table);
 	    } else {
 	    	//just get from 
 	    	//remove the last object, add mapped one
-	    	var aContent = dpage.getContent();
-	    	var last = aContent.slice(-1);
+	    	/*var aContent = dpage.getContent();
+	    	var last = _.last(aContent);
 	    	
 	    	dpage.removeContent(last);
 
-	    	dpage.addContent( existedData.oTable );
+	    	dpage.addContent( existedData.oTable );*/
 	    }
 	},
+
+	onMockDataMovedPressed: function( oEvent, moveDirection ) {
+ 		var bc = this.mDPage.MockData.getBindingContext();
+	    var oFacade = bc.getProperty('oFacade');
+	    oFacade.moveSelection(moveDirection);
+	},
+
+
+
+	onMockDataDelPressed: function( oEvent ) {
+	    var bc = this.mDPage.MockData.getBindingContext();
+	    var oFacade = bc.getProperty('oFacade');
+	    oFacade.deleteSelection();
+	},
+	
+	
 	
 	_createMockDataTable : function( aSelProp , mNewEntry) {
 		function  createColumn( prop) {
-			var type = prop.type.sapLastPart('.') ; 
+			var type = prop.type ; 
 			var label = prop.name + ' (' + type + ')';
 			var name = prop.name;
 			var path = "{" + prop.name + "}";
@@ -437,7 +502,8 @@ sap.ui.controller("fd.controller.MDDisplay",{
 					break;
 				case "DateTime": 
 					template = new sap.ui.commons.DatePicker({
-						value: path
+						// value: path
+						yyyymmdd: path
 					});
 					mNewEntry[name] = undefined;
 					break;
@@ -460,8 +526,9 @@ sap.ui.controller("fd.controller.MDDisplay",{
 			aColumn.push( createColumn(prop) );
 		}
 		var table = new sap.ui.table.Table({
-			 selectionMode: "MultiToggle",
-			 columns: aColumn
+			visibleRowCount: 25,
+			selectionMode: "MultiToggle",
+			columns: aColumn
 		});
 		table.bindRows("aData");
 		return table;
@@ -482,11 +549,55 @@ sap.ui.controller("fd.controller.MDDisplay",{
 		oTable.bindRows('aData');
 	},
 	
-	_generatePropertyValue : function(sKey, sType, mComplexTypes, iIndexParameter) {
+
+    onMockDataGenerateRandomPressed: function(  ) {
+        var count = this.byId('mockDataRandomCount').getValue();
+		count = parseInt(count);
+
+        var item =  this.mList.MockData.getSelectedItem();
+        if (!item)
+        	return;
+
+		var context = item.getBindingContext();
+		var aMeta = context.getProperty("aMeta");
+		var aNewData = [];
+
+		//always from the current index to start 
+		var start = context.getProperty('aData').length;
+
+		for (var i=0; i < count; i++) {
+			var entry = {};
+			for (var iProp =0; iProp < aMeta.length; iProp++) {
+				var  meta = aMeta[iProp];
+				var name = meta.name;
+				entry[name] = this._generatePropertyValue(name, meta.type, i + start);
+			}
+			aNewData.push(entry);
+		}
+
+		var table = context.getProperty('oTable');
+		fd.util.collection.appendCollection(table, aNewData);
+    },
+    
+    onMockDataSaveToFilePressed: function( oEvent ) {
+        var item =  this.mList.MockData.getSelectedItem();
+        if (!item)
+        	return;
+
+		var context = item.getBindingContext();
+		var aData = context.getProperty('aData');
+		//??later need add the _metadata, 
+		var fn = context.getProperty('name') + '.json';
+		var content = JSON.stringify(aData, undefined, 4);
+		fd.util.Export.saveToFile( content, fn);		
+    },
+    
+
+	_generatePropertyValue : function(sKey, sType, iIndexParameter) {
 				var iIndex = iIndexParameter;
-				if (!iIndex) {
+				/*if (!iIndex) {
 					iIndex = Math.floor(Math.random() * 10000) + 101;
-				}
+				}*/
 				switch (sType) {
 					case "String":
 						return sKey + " " + iIndex;
@@ -496,7 +607,12 @@ sap.ui.controller("fd.controller.MDDisplay",{
 						date.setDate(Math.floor(Math.random() * 30));
 						date.setMonth(Math.floor(Math.random() * 12));
 						date.setMilliseconds(0);
-						return "/Date(" + date.getTime() + ")/";
+						// return date.toJSON();
+						// return date.toLocaleDateString();
+						// return "/Date(" + date.getTime() + ")/";
+						// var today = new Date();
+						var value = date.toISOString().substring(0, 10);
+						return value.replace(/-/g, '');
 					case "Int16":
 					case "Int32":
 					case "Int64":
