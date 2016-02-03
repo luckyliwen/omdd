@@ -10,7 +10,7 @@
     <IconTabBar id="iconTabBar" selectedKey="Overall">
         <items>
             <IconTabFilter  
-                text="Overall Informaiton"  key="Overall">
+                text="Overall Information"  key="Overall">
                 <content>
                     <core:Fragment
                         fragmentName="fd.view.fragments.MDOverall" type="XML">

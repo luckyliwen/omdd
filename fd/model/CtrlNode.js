@@ -1447,6 +1447,8 @@ value: "list_ObjectItem"*/
 					continue;
 				}
 
+				//??here if some property have the paths, but name not correct, then it will be missed!!
+
 				if ( prop.paths && prop.paths != "") {
 					if ( ! fd.util.isValidBindingPath(prop.paths))  {
 						mGlobal.errorCount ++;

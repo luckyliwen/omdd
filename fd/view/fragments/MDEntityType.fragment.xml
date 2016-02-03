@@ -30,7 +30,9 @@
                             <StandardListItem
                                 title="{name}"
                                 counter="{aProp/length}"
-                                press="onListItemPressed">
+                                press="onListItemPressed"
+                                icon="{=  ${bAggr} ? 'sap-icon://measure' : '' }"
+                                >
                             </StandardListItem>
                         </items>
                     </List>
@@ -154,6 +156,7 @@
                                     </commons:TextView>
                                 </table:template>
                             </table:Column>
+                            
                             <table:Column hAlign="Center"  width="5rem"
                                 sortProperty="key"
                                 filterProperty="key">
@@ -168,6 +171,23 @@
                                     />
                                 </table:template>
                             </table:Column>
+
+                            <table:Column hAlign="Center"  width="5rem"
+                                sortProperty="aggregation-role"
+                                filterProperty="aggregation-role"
+                                visible="{= ${bAggr} }">
+                                <table:label>
+                                    <commons:Label
+                                        text="Aggr Role">
+                                    </commons:Label>
+                                </table:label>
+                                <table:template>
+                                    <core:Icon 
+                                        src="{= 'sap-icon://' + ${aggregation-role} }"
+                                    />
+                                </table:template>
+                            </table:Column>
+
                             <table:Column
                                 sortProperty="label"
                                 filterProperty="label">

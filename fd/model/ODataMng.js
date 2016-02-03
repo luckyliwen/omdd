@@ -290,11 +290,19 @@ fd.model.ODataMng = {
 		var entry = {
 			aKey : [],  //
 			aProp: [],
-			aNavigation: []
+			aNavigation: [],
+			bAggr:  false
 		};
 		var aKey =[]; //just key name for later easy handle 
 		entry.name = entityType.name;
-		//extension can ignore 
+
+		//extension only need check the semantics 
+		if (entityType.extensions && entityType.extensions.length) {
+			var semaExt = _.find(entityType.extensions,  {name: "semantics"} );
+			if (semaExt) {
+				entry.bAggr = true;
+			}
+		}
 
 		//keys, 
 		var i;
