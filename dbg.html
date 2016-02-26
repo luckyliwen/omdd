@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Fiori Fast Design</title>
+		
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/XMLDisplay.css" />
+
+	    <link rel="stylesheet" href="css/joint.min.css" />
+		   			  	
+		<script id="sap-ui-bootstrap" 
+			src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+			data-sap-ui-theme="sap_bluecrystal"
+			data-sap-ui-xx-bindingSyntax="complex"
+			data-sap-ui-resourceroots='{"fd": "./fd"}'
+			data-sap-ui-libs="sap.m, sap.me, sap.ui.commons,sap.ui.table,sap.ui.ux3,sap.ca.ui,sap.suite.ui.commons,sap.ui.comp,sap.ushell"
+			>
+		</script>
+		
+		<script src="CodeMirror/lib/codemirror.js"></script>
+		<link rel="stylesheet" href="CodeMirror/lib/codemirror.css">
+		<script src="CodeMirror/mode/javascript/javascript.js"></script>
+		<script src="CodeMirror/mode/xml/xml.js"></script>
+		
+		<script  src="fd/OpenSource/jquery.timer.js"></script>
+		<script  src="fd/OpenSource/handlebars-v1.3.0.js"></script>
+
+	    <script src="fd/OpenSource/lodash.min.js"></script>
+	    <script src="fd/OpenSource/backbone.min.js"></script>
+	    <script src="fd/OpenSource/joint.min.js"></script>
+
+		<script  src="fd/Application.js"></script>  
+		<script  src="fd/cfg/Cfg.js"></script>
+		<script  src="fd/util/Util.js"></script>
+		<script  src="fd/util/Test.js"></script>
+		<script  src="fd/util/Export.js"></script>
+		<script  src="fd/util/io.js"></script>
+		<script  src="fd/util/XmlViewReader.js"></script>
+		<script  src="fd/util/String.js"></script>
+		<script  src="fd/util/Collection.js"></script>
+		<script  src="fd/util/Format.js"></script>
+						
+		<script  src="fd/model/TextMng.js"></script>
+		<script  src="fd/model/EnumMng.js"></script>
+		<script  src="fd/model/ModuleMng.js"></script>
+		<script  src="fd/model/ODataMng.js"></script>
+		<script  src="fd/model/Metadata.js"></script>
+		<script  src="fd/model/DebugCtrl.js"></script>
+		<script  src="fd/model/data.js"></script>
+		<script  src="fd/model/CtrlNode.js"></script>
+		<script  src="fd/model/Clipboard.js"></script>
+		<script  src="fd/model/ControllerInfo.js"></script>
+		<script  src="fd/model/CodeAssist.js"></script>
+		<script  src="fd/model/TypeMng.js"></script>
+		<script  src="fd/model/SampleMng.js"></script>
+		<script  src="fd/model/ImageMng.js"></script>
+		<script  src="fd/model/HelpMng.js"></script>
+
+		<script  src="fd/uilib/Tree.js"></script>
+		<script  src="fd/uilib/SmartEdit.js"></script>
+		<script  src="fd/uilib/SourceEditor.js"></script>
+		<script  src="fd/uilib/D3Tree.js"></script>
+		<script  src="fd/uilib/FileChoose.js"></script>
+		<script  src="fd/uilib/Message.js"></script>
+		<script  src="fd/uilib/CollectionFacade.js"></script>
+		<script  src="fd/uilib/TableFacade.js"></script>
+		<script  src="fd/uilib/EntityTypeDiagram.js"></script>
+		
+		<script  src="fd/view/InputDlg.js"></script>
+		<script  src="fd/view/Project.view.js"></script>
+		<script  src="fd/view/XmlDisplay.view.js"></script>
+		<script  src="fd/view/ViewDesign.view.js"></script>
+		<script  src="fd/view/ViewPreview.view.js"></script>
+		<script  src="fd/view/ViewController.view.js"></script>
+		<script  src="fd/view/ViewWorkset.view.js"></script>
+		<script  src="fd/view/Helper.js"></script>
+		<script  src="fd/view/Main.view.js"></script>
+		<script  src="fd/view/DevFormatConvert.view.js"></script>
+		<script  src="fd/view/DevClassHier.view.js"></script>
+		<script  src="fd/view/DevMeta.view.js"></script>
+		<script  src="fd/view/DevWorkset.view.js"></script>
+		<script  src="fd/view/CreateBatch.view.js"></script>
+		<script  src="fd/view/PropEdit.view.js"></script>
+		
+		<script  src="fd/controller/XmlDisplay.controller.js"></script>
+		<script  src="fd/controller/ViewPreview.controller.js"></script>
+		<script  src="fd/controller/Main.controller.js"></script>
+		<script  src="fd/controller/Project.controller.js"></script>
+		<script  src="fd/controller/ViewController.controller.js"></script>
+		<script  src="fd/controller/ViewWorkset.controller.js"></script>
+		<script  src="fd/controller/ViewDesign.controller.js"></script>
+		<script  src="fd/controller/DevFormatConvert.controller.js"></script>
+		<script  src="fd/controller/DevClassHier.controller.js"></script>
+		<script  src="fd/controller/DevMeta.controller.js"></script>
+        <script  src="fd/controller/DevWorkset.controller.js"></script>
+        <script  src="fd/controller/CreateBatch.controller.js"></script>
+		<script  src="fd/controller/PropEdit.controller.js"></script>
+		<script  src="fd/controller/Setting.controller.js"></script>
+		<script  src="fd/controller/BatchEdit.controller.js"></script>
+		<script>
+			
+			var app = new fd.Application({root: 'content'});
+
+			function reportExceptionError(sMessage, sUrl, sLine,sColumn, oError) {
+				var str = "";
+				str += "!!Error happens: Message " + sMessage + '\nUrl: ' + sUrl + "\nLine: " + sLine ;
+				if ( sColumn) {
+					str += "\nColumn: " + sColumn;
+				}
+
+				if (oError) {
+					if (oError.stack) {
+						str +="\nCall stack pls see console window "; // + oError.stack; 
+					}
+				}
+
+				//in order to easy get, also print it in console
+				console.error(str, oError.stack);
+				alert(str);
+				return false;
+			}
+			window.onerror = reportExceptionError;
+
+		</script>
+	</head>
+	<body class="sapUiBody" role="application">
+		<div id="content"></div>
+	</body>
+</html>
