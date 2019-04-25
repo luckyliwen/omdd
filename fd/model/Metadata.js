@@ -582,7 +582,10 @@ fd.model.Metadata = {
 		
 		//??later check whether need the class m.Prop['class'] = {name: "class", bindable: "", 	defaultValue: null, group: "Mis",	type: "string"};
 		//??m.names.Prop.push('class');
-		
+		//??in latest version, some metadata don't have the getAllProperties, just return
+		if ( ! meta.getAllProperties)
+			return null;
+
 		var mProp = meta.getAllProperties();
 		for ( var k in mProp) {
 			var v= mProp[k];

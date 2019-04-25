@@ -305,12 +305,15 @@ fd.model.ODataMng = {
 		}
 
 		//keys, 
+		//??some case propertyRef is null
 		var i;
-		for ( i=0; i < entityType.key.propertyRef.length; i++) {
-			var propRef = entityType.key.propertyRef[i];
-			aKey.push(propRef.name);
+		if ( entityType.key && entityType.key.propertyRef) {
+			for ( i=0; i < entityType.key.propertyRef.length; i++) {
+				var propRef = entityType.key.propertyRef[i];
+				aKey.push(propRef.name);
+			}
 		}
-
+		
 		//then prop
 		for ( i=0; i < entityType.property.length; i++) {
 			var prop = entityType.property[i];
@@ -615,7 +618,8 @@ aMultiplicity;*/
 	 * @return {[type]}       [description]
 	 */
 	processODataMetada: function( odata,  bUsedAsDesignModel) {
-		if ( ! (odata.dataServices && odata.dataServices.schema && odata.dataServices.schema.length ===1) ){
+		//??here for the EAD OData it have two schemas, 
+		if ( ! (odata.dataServices && odata.dataServices.schema && odata.dataServices.schema.length >=1) ){
 			alert("Parsed OData error, please check the OData!");
 			return;
 		} 
